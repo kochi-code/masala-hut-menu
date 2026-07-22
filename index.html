@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>The Grand Masala Hut — Digital Menu</title>
+  <meta name="description" content="Authentic, flavorful, and premium Indian cuisine — eat with delight and savor every bite.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!--
+    ╔══════════════════════════════════════════════════════════════╗
+    ║  IMAGE FILE CONVENTIONS                                     ║
+    ╠══════════════════════════════════════════════════════════════╣
+    ║                                                              ║
+    ║  OFFER IMAGES — replace files in /images/offers/             ║
+    ║    grand-feast-combo.jpg, tandoori-duo-combo.jpg, etc.       ║
+    ║                                                              ║
+    ║  CATEGORY IMAGES — replace files in /images/categories/      ║
+    ║    starters.jpg, tandoor-grill.jpg, etc.                     ║
+    ║                                                              ║
+    ║  DISH IMAGES — replace files in /images/dishes/              ║
+    ║    butter-chicken.jpg, paneer-tikka.jpg, etc.                ║
+    ║                                                              ║
+    ╚══════════════════════════════════════════════════════════════╝
+  -->
+  <style>
+    /* ─────────────────────────────────────────────
+       CSS CUSTOM PROPERTIES / DESIGN TOKENS
+    ───────────────────────────────────────────── */
+    :root {
+      --spice-red: #D71920;
+      --saffron-yellow: #FFD400;
+      --royal-gold: #D4AF37;
+      --charcoal-black: #1A1A1A;
+      --charcoal-card: #242424;
+      --charcoal-deep: #1E1E1E;
+      --warm-cream: #F5EFE1;
+      --leaf-green: #2E7D32;
+      --muted-cream: #b8b0a0;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body: 'Montserrat', 'Segoe UI', sans-serif;
+    }
+
+    /* ─────────────────────────────────────────────
+       RESET & BASE
+    ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: var(--font-body);
+      background: var(--charcoal-black);
+      color: var(--warm-cream);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; display: block; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ─────────────────────────────────────────────
+       SPLASH SCREEN
+    ───────────────────────────────────────────── */
+    #splash {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--charcoal-black);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transition: opacity .6s ease, visibility .6s ease;
+    }
+    #splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .splash-logo-wrap {
+      width: 240px; max-width: 60vw; margin-bottom: 12px;
+      opacity: 0; -webkit-clip-path: inset(100% 0 0 0); clip-path: inset(100% 0 0 0); transform: scale(0.96);
+      animation: wipeUp 1s ease-out forwards, fadeIn 0.6s ease-out forwards, scaleUp 0.3s ease-out 0.9s forwards;
+    }
+    
+    .splash-logo-img { width: 100%; height: auto; }
+    
+    .splash-logo-fallback {
+      font-family: var(--font-heading); font-size: 26px; font-weight: 700;
+      text-align: center; color: var(--royal-gold); line-height: 1.2;
+    }
+
+    .splash-tagline {
+      font-family: var(--font-body); font-size: 13px; font-style: italic; color: var(--warm-cream);
+      margin-top: 4px; opacity: 0; transform: translateY(8px);
+      animation: taglineFade 0.5s ease-out 1.3s forwards;
+    }
+
+    @keyframes wipeUp { to { -webkit-clip-path: inset(0 0 0 0); clip-path: inset(0 0 0 0); } }
+    @keyframes fadeIn { to { opacity: 1; } }
+    @keyframes scaleUp { to { transform: scale(1); } }
+    @keyframes taglineFade { to { opacity: 1; transform: translateY(0); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .splash-logo-wrap, .splash-tagline {
+        animation: fadeIn 0.5s ease-out forwards !important;
+        animation-delay: 0s !important;
+        opacity: 0;
+        transform: none !important;
+        -webkit-clip-path: none !important;
+        clip-path: none !important;
+      }
+    }
+
+    /* ─────────────────────────────────────────────
+       HEADER
+    ───────────────────────────────────────────── */
+    #site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(26,26,26,.92);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(212,175,55,.15);
+      transition: padding .3s ease, box-shadow .3s ease;
+      padding: 14px 16px;
+    }
+    #site-header.compact { padding: 8px 16px; box-shadow: 0 2px 20px rgba(0,0,0,.5); }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; max-width: 640px; margin: 0 auto; }
+    .header-left { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .header-logo-img { height: 36px; width: auto; flex-shrink: 0; transition: height .3s; }
+    #site-header.compact .header-logo-img { height: 28px; }
+
+    .header-cta {
+      width: 38px; height: 38px; border-radius: 50%; background: var(--spice-red);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform .2s, background .2s; flex-shrink: 0;
+    }
+    .header-cta:hover { transform: scale(1.08); background: #bf151b; }
+    .header-cta svg { width: 18px; height: 18px; fill: #fff; }
+
+    /* ─────────────────────────────────────────────
+       SCREENS MANAGEMENT
+    ───────────────────────────────────────────── */
+    .screen { display: none; }
+    .screen.active { display: block; animation: fadeIn .5s ease; }
+
+    /* ─────────────────────────────────────────────
+       SCREEN 2 — DAILY OFFERS
+    ───────────────────────────────────────────── */
+    .offers-screen {
+      position: relative; min-height: calc(100vh - 56px);
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      padding: 32px 20px 36px; overflow: hidden;
+    }
+    .offers-screen::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 20%, rgba(215,25,32,.1) 0%, transparent 55%),
+        radial-gradient(ellipse at 30% 80%, rgba(255,212,0,.05) 0%, transparent 45%),
+        radial-gradient(ellipse at 75% 60%, rgba(212,175,55,.07) 0%, transparent 50%);
+      z-index: 0;
+    }
+    .offers-content { position: relative; z-index: 1; width: 100%; max-width: 520px; }
+    .offers-logo-img { height: 56px; width: auto; max-width: 100%; object-fit: contain; margin: 0 auto 16px; display: block; }
+
+    .offers-label {
+      font-family: var(--font-body); font-size: 13px; font-weight: 700;
+      letter-spacing: 3.5px; text-transform: uppercase; color: var(--royal-gold);
+      margin-bottom: 6px;
+    }
+    .offers-date {
+      font-family: var(--font-body); font-size: 12px; font-weight: 400; color: var(--muted-cream);
+      margin-bottom: 24px; letter-spacing: .3px;
+    }
+
+    /* Offer Card with Image */
+    .offer-card {
+      background: var(--charcoal-card);
+      border: 1px solid var(--royal-gold);
+      border-radius: 14px;
+      margin-bottom: 16px;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+      opacity: 0; transform: translateY(28px);
+    }
+    .offer-card.visible { opacity: 1; transform: translateY(0); transition: opacity .55s ease, transform .55s ease; }
+
+    .offer-img-wrap {
+      position: relative; width: 100%; padding-top: 50%; /* 2:1 aspect */
+      background: var(--charcoal-deep); overflow: hidden;
+      border-bottom: 1px solid rgba(212,175,55,.15);
+    }
+    .offer-img-wrap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .offer-placeholder {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      background: radial-gradient(ellipse at 50% 50%, rgba(212,175,55,.06) 0%, transparent 70%), var(--charcoal-deep); z-index: 0;
+    }
+    .offer-placeholder svg { width: 32px; height: 32px; opacity: .3; }
+
+    .offer-card-body { padding: 16px 20px; }
+    .offer-card .offer-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: var(--spice-red); color: #fff;
+      font-family: var(--font-body); font-size: 9px; font-weight: 700;
+      letter-spacing: .8px; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 4px; margin-bottom: 10px; line-height: 1.3;
+    }
+    .offer-badge svg { width: 10px; height: 10px; fill: var(--saffron-yellow); }
+
+    .offer-name { font-family: var(--font-heading); font-size: 18px; font-weight: 700; color: var(--warm-cream); line-height: 1.3; margin-bottom: 4px; }
+    .offer-desc { font-size: 12px; font-weight: 400; color: var(--muted-cream); line-height: 1.5; margin-bottom: 10px; }
+    .offer-pricing { display: flex; align-items: baseline; gap: 10px; }
+    .offer-original-price { font-family: var(--font-body); font-size: 14px; font-weight: 500; color: var(--muted-cream); text-decoration: line-through; opacity: .65; }
+    .offer-price { font-family: var(--font-body); font-size: 20px; font-weight: 700; color: var(--saffron-yellow); }
+
+    /* View Full Menu CTA */
+    .view-menu-cta {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; margin-top: 8px; padding: 15px 28px;
+      background: var(--spice-red); color: var(--warm-cream);
+      font-family: var(--font-body); font-size: 14px; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      border: 1px solid var(--royal-gold); border-radius: 30px;
+      cursor: pointer; transition: background .2s, transform .2s, box-shadow .2s;
+      opacity: 0; transform: translateY(16px);
+    }
+    .view-menu-cta.visible { opacity: 1; transform: translateY(0); transition: opacity .5s ease, transform .5s ease, background .2s, box-shadow .2s; }
+    .view-menu-cta:hover { background: #bf151b; transform: scale(1.02); box-shadow: 0 4px 24px rgba(215,25,32,.3); }
+    .view-menu-cta svg { width: 18px; height: 18px; fill: var(--warm-cream); flex-shrink: 0; }
+
+    /* ─────────────────────────────────────────────
+       GOLD ORNAMENTAL DIVIDER
+    ───────────────────────────────────────────── */
+    .gold-divider { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 20px 24px; }
+    .gold-divider .line { flex: 1; max-width: 100px; height: 1px; background: linear-gradient(90deg, transparent, var(--royal-gold), transparent); }
+    .gold-divider .mandala { width: 24px; height: 24px; flex-shrink: 0; }
+
+    /* ─────────────────────────────────────────────
+       COMPACT HERO BANNER (Screens 3 & 4)
+    ───────────────────────────────────────────── */
+    .menu-hero { position: relative; padding: 24px 24px 16px; text-align: center; overflow: hidden; }
+    .menu-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 40%, rgba(215,25,32,.08) 0%, transparent 60%), linear-gradient(180deg, rgba(26,26,26,0) 0%, var(--charcoal-black) 100%);
+      z-index: 0;
+    }
+    .menu-hero-content { position: relative; z-index: 1; }
+    .menu-hero h1 { font-family: var(--font-heading); font-size: clamp(20px, 5.5vw, 28px); font-weight: 700; color: var(--warm-cream); line-height: 1.2; margin-bottom: 4px; }
+    .menu-hero h1 .the { font-weight: 400; font-size: .6em; display: block; letter-spacing: 4px; text-transform: uppercase; color: var(--royal-gold); margin-bottom: 2px; }
+    .menu-hero-tagline { font-size: 12px; font-style: italic; color: var(--muted-cream); letter-spacing: .4px; }
+
+    /* ─────────────────────────────────────────────
+       SCREEN 3 — CATEGORY GRID
+    ───────────────────────────────────────────── */
+    .category-grid-section { max-width: 640px; margin: 0 auto; padding: 0 16px 32px; }
+    .grid-label {
+      font-family: var(--font-body); font-size: 11px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase; color: var(--royal-gold);
+      text-align: center; margin-bottom: 18px;
+    }
+    .category-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+
+    .cat-tile {
+      position: relative; border-radius: 14px; overflow: hidden;
+      border: 1px solid var(--royal-gold); cursor: pointer;
+      transition: transform .25s ease, box-shadow .25s ease;
+      opacity: 0; transform: translateY(20px);
+    }
+    .cat-tile.visible { animation: slideUp .5s ease forwards; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    .cat-tile:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,.4); }
+    .cat-tile:active { transform: scale(.97); }
+
+    .cat-tile-img { position: relative; width: 100%; padding-top: 75%; background: var(--charcoal-deep); overflow: hidden; }
+    .cat-tile-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .3s; }
+    .cat-tile-placeholder {
+      position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      background: radial-gradient(ellipse at 50% 50%, rgba(212,175,55,.06) 0%, transparent 70%), var(--charcoal-deep); z-index: 0;
+    }
+    .cat-tile-placeholder svg { width: 36px; height: 36px; opacity: .35; }
+    .cat-tile-placeholder span { font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--royal-gold); opacity: .4; }
+    
+    .cat-tile-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0; padding: 24px 14px 14px;
+      background: linear-gradient(transparent, rgba(26,26,26,.85) 60%, rgba(26,26,26,.95)); z-index: 2;
+    }
+    .cat-tile-name { font-family: var(--font-heading); font-size: 16px; font-weight: 700; color: var(--warm-cream); line-height: 1.2; }
+    .cat-tile-count { font-family: var(--font-body); font-size: 10px; font-weight: 500; color: var(--muted-cream); margin-top: 2px; letter-spacing: .3px; }
+
+    /* ─────────────────────────────────────────────
+       SCREEN 4 — CATEGORY DETAIL
+    ───────────────────────────────────────────── */
+    .detail-section { max-width: 640px; margin: 0 auto; padding: 0 16px 40px; }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; margin-bottom: 18px;
+      font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; color: var(--royal-gold);
+      border: 1px solid rgba(212,175,55,.25); border-radius: 20px; transition: all .2s; cursor: pointer; background: transparent;
+    }
+    .back-btn:hover { background: rgba(212,175,55,.1); border-color: var(--royal-gold); }
+    .back-btn svg { width: 14px; height: 14px; fill: var(--royal-gold); }
+
+    .detail-nav { display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 8px; margin-bottom: 20px; }
+    .detail-nav::-webkit-scrollbar { display: none; }
+    .detail-pill {
+      flex-shrink: 0; padding: 6px 14px; border-radius: 18px;
+      font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase;
+      border: 1px solid var(--royal-gold); color: var(--warm-cream); background: transparent; transition: all .25s ease; white-space: nowrap; cursor: pointer;
+    }
+    .detail-pill:hover { background: rgba(212,175,55,.12); }
+    .detail-pill.active { background: var(--spice-red); border-color: var(--spice-red); }
+
+    .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+    .section-header .arch-icon { width: 22px; height: 22px; flex-shrink: 0; }
+    .section-header h2 { font-family: var(--font-heading); font-size: 22px; font-weight: 700; color: var(--warm-cream); letter-spacing: .5px; }
+    .section-header .header-rule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--royal-gold), transparent); }
+
+    .dish-card {
+      background: var(--charcoal-card); border: 1px solid rgba(212,175,55,.12); border-radius: 12px;
+      padding: 12px; margin-bottom: 12px; position: relative; display: flex; gap: 14px; align-items: flex-start;
+      transition: border-color .25s ease, box-shadow .25s ease; opacity: 0; transform: translateY(20px);
+    }
+    .dish-card.visible { opacity: 1; transform: translateY(0); transition: opacity .45s ease, transform .45s ease, border-color .25s ease; }
+    .dish-card:hover { border-color: rgba(212,175,55,.25); box-shadow: 0 4px 24px rgba(0,0,0,.3); }
+
+    .dish-thumb { position: relative; width: 80px; height: 80px; border-radius: 10px; overflow: hidden; flex-shrink: 0; background: var(--charcoal-deep); }
+    .dish-thumb img { width: 100%; height: 100%; object-fit: cover; transition: opacity .3s; }
+    .dish-thumb-placeholder {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      background: radial-gradient(ellipse at 50% 50%, rgba(212,175,55,.06) 0%, transparent 70%), var(--charcoal-deep); z-index: 0;
+    }
+    .dish-thumb-placeholder svg { width: 24px; height: 24px; opacity: .3; }
+
+    .dish-thumb .veg-indicator {
+      position: absolute; top: 4px; left: 4px; z-index: 3; width: 14px; height: 14px;
+      border: 1.5px solid var(--leaf-green); border-radius: 2px; display: flex; align-items: center; justify-content: center; background: rgba(26,26,26,.75);
+    }
+    .dish-thumb .veg-indicator .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--leaf-green); }
+    .dish-thumb .veg-indicator.non-veg { border-color: var(--spice-red); }
+    .dish-thumb .veg-indicator.non-veg .dot { background: var(--spice-red); }
+
+    .dish-body { flex: 1; min-width: 0; }
+    .dish-top-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .dish-info { flex: 1; min-width: 0; }
+    .dish-meta { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+    
+    .badge {
+      display: inline-flex; align-items: center; gap: 3px; background: var(--spice-red); color: #fff;
+      font-size: 8px; font-weight: 700; letter-spacing: .7px; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; line-height: 1.3;
+    }
+    .badge svg { width: 9px; height: 9px; fill: var(--saffron-yellow); }
+
+    .dish-name { font-family: var(--font-heading); font-size: 15px; font-weight: 700; color: var(--warm-cream); line-height: 1.25; margin-bottom: 3px; }
+    .dish-desc { font-size: 11px; font-weight: 400; color: var(--muted-cream); line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .dish-price { font-family: var(--font-body); font-size: 15px; font-weight: 700; color: var(--saffron-yellow); white-space: nowrap; flex-shrink: 0; padding-top: 1px; }
+
+    /* ─────────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────────── */
+    .site-footer { text-align: center; padding: 10px 24px 40px; max-width: 640px; margin: 0 auto; }
+    .footer-info { font-size: 12px; color: var(--muted-cream); line-height: 1.7; margin-bottom: 20px; }
+    .footer-info strong { color: var(--warm-cream); font-weight: 600; }
+    .wa-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 14px 24px;
+      background: var(--spice-red); color: #fff; font-family: var(--font-body); font-size: 14px; font-weight: 700;
+      letter-spacing: .8px; text-transform: uppercase; border-radius: 30px; transition: background .2s, transform .2s; margin-bottom: 24px;
+    }
+    .wa-btn:hover { background: #bf151b; transform: scale(1.02); }
+    .wa-btn svg { width: 20px; height: 20px; fill: #fff; }
+    .footer-tagline { font-family: var(--font-heading); font-style: italic; font-size: 14px; color: var(--royal-gold); margin-bottom: 16px; }
+    .footer-credit { font-size: 10px; color: rgba(184,176,160,.4); letter-spacing: .5px; }
+
+    /* ─────────────────────────────────────────────
+       SCROLL-REVEAL
+    ───────────────────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─────────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────────── */
+    @media (min-width: 480px) { .dish-thumb { width: 88px; height: 88px; } .dish-name { font-size: 16px; } }
+    @media (min-width: 600px) {
+      .menu-hero { padding: 36px 40px 24px; } .menu-hero h1 { font-size: 30px; }
+      .offers-screen { padding: 40px 32px 48px; } .offer-name { font-size: 20px; } .offer-desc { font-size: 13px; }
+      .category-grid { gap: 16px; } .cat-tile-name { font-size: 18px; }
+      .dish-thumb { width: 96px; height: 96px; } .dish-card { padding: 14px; } .dish-name { font-size: 17px; } .dish-desc { font-size: 12px; } .section-header h2 { font-size: 26px; }
+    }
+    @media (min-width: 900px) {
+      .category-grid-section, .detail-section { max-width: 720px; } .category-grid { grid-template-columns: repeat(3, 1fr); }
+      .offers-content { max-width: 580px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ═══════════════════════════════════════════
+       SPLASH SCREEN (Screen 1)
+  ═══════════════════════════════════════════ -->
+  <div id="splash" aria-label="Loading">
+    <div class="splash-logo-wrap">
+      <img class="splash-logo-img" src="images/logo-full-cropped.png" alt="The Grand Masala Hut Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <div class="splash-logo-fallback" style="display:none;">The Grand Masala Hut</div>
+    </div>
+    <div class="splash-tagline">Eat with delight and savor every bite.</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       HEADER
+  ═══════════════════════════════════════════ -->
+  <header id="site-header">
+    <div class="header-inner">
+      <div class="header-left" id="headerLogo">
+        <img class="header-logo-img" src="images/logo-full-cropped.png" alt="The Grand Masala Hut">
+      </div>
+      <a class="header-cta" href="https://wa.me/919876543210?text=Hi%2C%20I'd%20like%20to%20place%20an%20order" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.12 1.52 5.856L0 24l6.335-1.652A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75c-1.875 0-3.654-.5-5.212-1.424l-.375-.222-3.876 1.01 1.032-3.78-.243-.387A9.71 9.71 0 012.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN 2 — TODAY'S OFFERS
+  ═══════════════════════════════════════════ -->
+  <div id="screenOffers" class="screen">
+    <section class="offers-screen">
+      <div class="offers-content">
+        <img class="offers-logo-img" src="images/logo-full-cropped.png" alt="The Grand Masala Hut">
+        <div class="offers-label">TODAY'S OFFERS</div>
+        <div class="offers-date" id="offersDate"></div>
+
+        <div id="offersContainer"></div>
+
+        <div class="gold-divider" style="padding: 10px 0 20px;">
+          <span class="line"></span>
+          <svg class="mandala" viewBox="0 0 40 40" fill="none"><g stroke="#D4AF37" stroke-width="1" fill="none"><ellipse cx="20" cy="20" rx="3" ry="9"/><ellipse cx="20" cy="20" rx="3" ry="9" transform="rotate(45 20 20)"/><ellipse cx="20" cy="20" rx="3" ry="9" transform="rotate(90 20 20)"/><ellipse cx="20" cy="20" rx="3" ry="9" transform="rotate(135 20 20)"/></g><circle cx="20" cy="20" r="2.5" fill="#D4AF37"/></svg>
+          <span class="line"></span>
+        </div>
+
+        <button class="view-menu-cta" id="viewMenuCta">
+          <svg viewBox="0 0 200 200" fill="none"><path d="M40 170 L40 90 Q40 30 100 30 Q160 30 160 90 L160 170" stroke="currentColor" stroke-width="8" fill="none" stroke-linecap="round"/></svg>
+          View Full Menu
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       MENU SHARED ELEMENTS (Hero + Divider)
+  ═══════════════════════════════════════════ -->
+  <div id="menuShared" style="display: none;">
+    <section class="menu-hero">
+      <div class="menu-hero-content">
+        <h1><span class="the">The</span>Grand Masala Hut</h1>
+        <p class="menu-hero-tagline">Eat with delight and savor every bite.</p>
+      </div>
+    </section>
+    <div class="gold-divider">
+      <span class="line"></span>
+      <svg class="mandala" viewBox="0 0 40 40" fill="none"><g stroke="#D4AF37" stroke-width="1" fill="none"><ellipse cx="20" cy="20" rx="3" ry="9"/><ellipse cx="20" cy="20" rx="3" ry="9" transform="rotate(45 20 20)"/><ellipse cx="20" cy="20" rx="3" ry="9" transform="rotate(90 20 20)"/><ellipse cx="20" cy="20" rx="3" ry="9" transform="rotate(135 20 20)"/></g><circle cx="20" cy="20" r="2.5" fill="#D4AF37"/></svg>
+      <span class="line"></span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN 3 — CATEGORY GRID
+  ═══════════════════════════════════════════ -->
+  <div id="screenGrid" class="screen">
+    <div class="category-grid-section">
+      <div class="grid-label">Explore Our Menu</div>
+      <div class="category-grid" id="categoryGrid">
+        <!-- Tiles injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN 4 — CATEGORY DETAIL
+  ═══════════════════════════════════════════ -->
+  <div id="screenDetail" class="screen">
+    <div class="detail-section">
+      <button class="back-btn" id="backBtn">
+        <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        All Categories
+      </button>
+      <div class="detail-nav" id="detailNav"></div>
+      <div id="detailContent"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer class="site-footer" id="siteFooter" style="display: none;">
+    <div class="gold-divider reveal">
+      <span class="line"></span>
+      <svg class="mandala" viewBox="0 0 40 40" fill="none"><g stroke="#D4AF37" stroke-width="1" fill="none"><ellipse cx="20" cy="20" rx="3" ry="9"/><ellipse cx="20" cy="20" rx="3" ry="9" transform="rotate(45 20 20)"/><ellipse cx="20" cy="20" rx="3" ry="9" transform="rotate(90 20 20)"/><ellipse cx="20" cy="20" rx="3" ry="9" transform="rotate(135 20 20)"/></g><circle cx="20" cy="20" r="2.5" fill="#D4AF37"/></svg>
+      <span class="line"></span>
+    </div>
+    <div class="footer-info">
+      <strong>The Grand Masala Hut</strong><br>
+      Ground Floor, Spice Tower, MG Road<br>
+      Kochi, Kerala 682016<br><br>
+      <strong>Hours:</strong> 11:30 AM – 11:00 PM (All days)<br>
+      <strong>Phone:</strong> +91 98765 43210
+    </div>
+    <a class="wa-btn" href="https://wa.me/919876543210?text=Hi%2C%20I'd%20like%20to%20place%20an%20order%20from%20The%20Grand%20Masala%20Hut" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.12 1.52 5.856L0 24l6.335-1.652A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75c-1.875 0-3.654-.5-5.212-1.424l-.375-.222-3.876 1.01 1.032-3.78-.243-.387A9.71 9.71 0 012.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75z"/></svg>
+      Order on WhatsApp
+    </a>
+    <p class="footer-tagline">"Eat with delight and savor every bite."</p>
+    <p class="footer-credit">Powered by Kochi.Code</p>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════
+       JAVASCRIPT — DATA + LOGIC
+  ═══════════════════════════════════════════ -->
+  <script>
+    /* ────────────────────────────────────────
+       DATA: OFFERS & MENU
+    ──────────────────────────────────────── */
+    const OFFERS_DATA = [
+      { name: "Grand Feast Combo", desc: "1 Butter Chicken + 2 Butter Naan + 1 Jeera Rice", originalPrice: 899, offerPrice: 699, badge: "Today Only", image: "images/offers/grand-feast-combo.jpg" },
+      { name: "Tandoori Duo Combo", desc: "Chicken Tikka + Seekh Kebab + Mint Chutney", originalPrice: 649, offerPrice: 499, badge: "Limited Time", image: "images/offers/tandoori-duo-combo.jpg" },
+      { name: "Family Biryani Combo", desc: "2 Chicken Biryani + 1 Raita + 1 Gulab Jamun (2pc)", originalPrice: 999, offerPrice: 799, badge: "Chef's Pick", image: "images/offers/family-biryani-combo.jpg" },
+    ];
+
+    const MENU_DATA = [
+      {
+        category: "Starters", id: "starters", image: "images/categories/starters.jpg",
+        dishes: [
+          { name: "Paneer Tikka", desc: "Cottage cheese cubes marinated in spiced yogurt.", price: 280, veg: true, badge: "bestseller", image: "images/dishes/paneer-tikka.jpg" },
+          { name: "Chicken 65", desc: "Deep-fried spicy chicken with curry leaves.", price: 260, veg: false, badge: "bestseller", image: "images/dishes/chicken-65.jpg" },
+          { name: "Masala Papad", desc: "Crispy papad topped with onions and tomatoes.", price: 80, veg: true, image: "images/dishes/masala-papad.jpg" },
+          { name: "Mutton Seekh Kebab", desc: "Minced mutton blended with aromatic spices.", price: 350, veg: false, badge: "chef", image: "images/dishes/mutton-seekh-kebab.jpg" },
+          { name: "Hara Bhara Kebab", desc: "Spinach, peas and potato patties.", price: 220, veg: true, image: "images/dishes/hara-bhara-kebab.jpg" },
+          { name: "Prawn Koliwada", desc: "Batter-fried prawns tossed in a fiery red masala.", price: 380, veg: false, image: "images/dishes/prawn-koliwada.jpg" },
+        ]
+      },
+      {
+        category: "Tandoor & Grill", id: "tandoor", image: "images/categories/tandoor-grill.jpg",
+        dishes: [
+          { name: "Tandoori Chicken (Half)", desc: "Classic whole-leg roasted in clay oven.", price: 320, veg: false, badge: "bestseller", image: "images/dishes/tandoori-chicken-half.jpg" },
+          { name: "Malai Chicken Tikka", desc: "Creamy, mildly-spiced chicken pieces.", price: 300, veg: false, image: "images/dishes/malai-chicken-tikka.jpg" },
+          { name: "Paneer Malai Tikka", desc: "Silky paneer cubes in cream-cashew marinade.", price: 280, veg: true, image: "images/dishes/paneer-malai-tikka.jpg" },
+          { name: "Fish Tikka", desc: "Boneless fish fillets marinated in mustard.", price: 360, veg: false, image: "images/dishes/fish-tikka.jpg" },
+        ]
+      },
+      {
+        category: "Curries", id: "curries", image: "images/categories/curries.jpg",
+        dishes: [
+          { name: "Butter Chicken", desc: "Tender chicken in a rich, velvety tomato-butter gravy.", price: 320, veg: false, badge: "bestseller", image: "images/dishes/butter-chicken.jpg" },
+          { name: "Dal Makhani", desc: "Black lentils slow-simmered overnight.", price: 240, veg: true, badge: "chef", image: "images/dishes/dal-makhani.jpg" },
+          { name: "Paneer Butter Masala", desc: "Cottage cheese cubes in a luscious tomato-cashew gravy.", price: 280, veg: true, image: "images/dishes/paneer-butter-masala.jpg" },
+          { name: "Rogan Josh", desc: "Tender mutton cooked in a Kashmiri-style gravy.", price: 380, veg: false, image: "images/dishes/rogan-josh.jpg" },
+        ]
+      },
+      {
+        category: "Biryani & Rice", id: "biryani", image: "images/categories/biryani-rice.jpg",
+        dishes: [
+          { name: "Hyderabadi Chicken Dum Biryani", desc: "Fragrant basmati rice layered with spiced chicken.", price: 340, veg: false, badge: "bestseller", image: "images/dishes/hyderabadi-chicken-dum-biryani.jpg" },
+          { name: "Mutton Biryani", desc: "Succulent mutton pieces with saffron-kissed rice.", price: 400, veg: false, badge: "chef", image: "images/dishes/mutton-biryani.jpg" },
+          { name: "Veg Biryani", desc: "Seasonal vegetables layered with aromatic basmati.", price: 260, veg: true, image: "images/dishes/veg-biryani.jpg" },
+          { name: "Jeera Rice", desc: "Fluffy basmati rice tempered with cumin seeds.", price: 160, veg: true, image: "images/dishes/jeera-rice.jpg" },
+        ]
+      },
+      {
+        category: "Breads", id: "breads", image: "images/categories/breads.jpg",
+        dishes: [
+          { name: "Butter Naan", desc: "Soft leavened bread brushed with melted butter.", price: 60, veg: true, image: "images/dishes/butter-naan.jpg" },
+          { name: "Garlic Naan", desc: "Naan topped with minced garlic and coriander.", price: 70, veg: true, badge: "bestseller", image: "images/dishes/garlic-naan.jpg" },
+          { name: "Laccha Paratha", desc: "Flaky, layered whole-wheat bread.", price: 60, veg: true, image: "images/dishes/laccha-paratha.jpg" },
+          { name: "Tandoori Roti", desc: "Whole wheat flatbread baked in the clay oven.", price: 40, veg: true, image: "images/dishes/tandoori-roti.jpg" },
+        ]
+      },
+      {
+        category: "Desserts", id: "desserts", image: "images/categories/desserts.jpg",
+        dishes: [
+          { name: "Gulab Jamun", desc: "Golden milk-solid dumplings soaked in syrup. (2 pcs)", price: 120, veg: true, badge: "bestseller", image: "images/dishes/gulab-jamun.jpg" },
+          { name: "Rasmalai", desc: "Flattened paneer dumplings in chilled milk. (2 pcs)", price: 140, veg: true, image: "images/dishes/rasmalai.jpg" },
+          { name: "Kulfi Falooda", desc: "Traditional Indian ice cream with vermicelli.", price: 160, veg: true, badge: "chef", image: "images/dishes/kulfi-falooda.jpg" },
+        ]
+      },
+      {
+        category: "Beverages", id: "beverages", image: "images/categories/beverages.jpg",
+        dishes: [
+          { name: "Masala Chai", desc: "Aromatic spiced tea brewed with ginger and cardamom.", price: 60, veg: true, image: "images/dishes/masala-chai.jpg" },
+          { name: "Mango Lassi", desc: "Thick yogurt shake blended with Alphonso mango.", price: 120, veg: true, badge: "bestseller", image: "images/dishes/mango-lassi.jpg" },
+          { name: "Fresh Lime Soda", desc: "Choice of sweet or salted.", price: 80, veg: true, image: "images/dishes/fresh-lime-soda.jpg" },
+        ]
+      }
+    ];
+
+    /* ────────────────────────────────────────
+       SVG FRAGMENTS & UTILS
+    ──────────────────────────────────────── */
+    const SVG_ARCH = `<svg viewBox="0 0 200 200" fill="none"><path d="M40 170 L40 90 Q40 30 100 30 Q160 30 160 90 L160 170" stroke="#D4AF37" stroke-width="5" fill="none" stroke-linecap="round"/></svg>`;
+    const SVG_ARCH_ICON = `<svg class="arch-icon" viewBox="0 0 200 200" fill="none"><path d="M40 170 L40 90 Q40 30 100 30 Q160 30 160 90 L160 170" stroke="#D4AF37" stroke-width="6" fill="none" stroke-linecap="round"/></svg>`;
+    const SVG_LEAF = `<svg viewBox="0 0 20 20" fill="none" stroke="#D4AF37" stroke-width="1"><path d="M10 18 C10 18 3 12 3 7 Q3 2 10 2 Q17 2 17 7 C17 12 10 18 10 18z"/><line x1="10" y1="18" x2="10" y2="7"/><line x1="10" y1="10" x2="7" y2="7.5"/><line x1="10" y1="12" x2="13" y2="9.5"/></svg>`;
+    const SVG_FLAME = `<svg viewBox="0 0 16 16"><path d="M8 1C8 1 3 6 3 10a5 5 0 0010 0C13 6 8 1 8 1zm0 12.5A3.5 3.5 0 014.5 10c0-2.1 2.2-5.3 3.5-7 1.3 1.7 3.5 4.9 3.5 7A3.5 3.5 0 018 13.5z"/></svg>`;
+    const SVG_STAR = `<svg viewBox="0 0 16 16"><polygon points="8,1 10,6 15.5,6 11,9.5 12.5,15 8,11.5 3.5,15 5,9.5 0.5,6 6,6"/></svg>`;
+    const SVG_CLOCK = `<svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2" fill="none"/><polyline points="8,4 8,8 11,10" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+    function handleImgError(img) {
+      img.style.display = 'none';
+      img.removeAttribute('data-placeholder');
+    }
+
+    /* ────────────────────────────────────────
+       SCREEN FLOW MANAGEMENT
+    ──────────────────────────────────────── */
+    const menuShared = document.getElementById('menuShared');
+    const siteFooter = document.getElementById('siteFooter');
+
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+
+      // Shared menu elements (Hero + Footer) only show on Grid and Detail screens
+      if (id === 'screenGrid' || id === 'screenDetail') {
+        menuShared.style.display = 'block';
+        siteFooter.style.display = 'block';
+      } else {
+        menuShared.style.display = 'none';
+        siteFooter.style.display = 'none';
+      }
+    }
+
+    // Logo click returns to offers
+    document.getElementById('headerLogo').addEventListener('click', () => {
+      showScreen('screenOffers');
+      animateOffers();
+    });
+
+    /* ────────────────────────────────────────
+       SCREEN 2: RENDER OFFERS
+    ──────────────────────────────────────── */
+    document.getElementById('offersDate').textContent = new Date().toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'long' });
+
+    const offersContainer = document.getElementById('offersContainer');
+    offersContainer.innerHTML = OFFERS_DATA.map(offer => {
+      let badgeIcon = SVG_FLAME;
+      if (offer.badge.toLowerCase().includes('limited')) badgeIcon = SVG_CLOCK;
+      if (offer.badge.toLowerCase().includes('chef')) badgeIcon = SVG_STAR;
+      
+      const originalHTML = offer.originalPrice ? `<span class="offer-original-price">₹${offer.originalPrice}</span>` : '';
+      return `
+        <div class="offer-card">
+          <div class="offer-img-wrap">
+            <div class="offer-placeholder">${SVG_ARCH}</div>
+            <img src="${offer.image}" alt="${offer.name}" data-placeholder="true" onerror="handleImgError(this)" loading="lazy">
+          </div>
+          <div class="offer-card-body">
+            <span class="offer-badge">${badgeIcon} ${offer.badge}</span>
+            <h3 class="offer-name">${offer.name}</h3>
+            <p class="offer-desc">${offer.desc}</p>
+            <div class="offer-pricing">
+              ${originalHTML}
+              <span class="offer-price">₹${offer.offerPrice}</span>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+
+    function animateOffers() {
+      const cards = document.querySelectorAll('.offer-card');
+      const cta = document.getElementById('viewMenuCta');
+      cards.forEach(c => c.classList.remove('visible'));
+      cta.classList.remove('visible');
+      setTimeout(() => {
+        cards.forEach((card, i) => setTimeout(() => card.classList.add('visible'), 150 + i * 140));
+        setTimeout(() => cta.classList.add('visible'), 150 + cards.length * 140 + 100);
+      }, 50);
+    }
+
+    /* ────────────────────────────────────────
+       SPLASH LOGIC
+    ──────────────────────────────────────── */
+    const splash = document.getElementById('splash');
+    let splashDismissed = false;
+    function dismissSplash() {
+      if (splashDismissed) return;
+      splashDismissed = true;
+      splash.classList.add('hidden');
+      showScreen('screenOffers');
+      setTimeout(animateOffers, 400);
+    }
+    let splashTime = 2200;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      splashTime = 800;
+    }
+    setTimeout(dismissSplash, splashTime);
+    splash.addEventListener('click', dismissSplash);
+
+    /* ────────────────────────────────────────
+       TRANSITION TO SCREEN 3 (Grid)
+    ──────────────────────────────────────── */
+    document.getElementById('viewMenuCta').addEventListener('click', () => {
+      showScreen('screenGrid');
+      // Trigger grid stagger
+      setTimeout(() => {
+        document.querySelectorAll('.cat-tile').forEach((tile, i) => {
+          tile.classList.remove('visible');
+          setTimeout(() => tile.classList.add('visible'), i * 80);
+        });
+      }, 50);
+    });
+
+    /* ────────────────────────────────────────
+       SCREEN 3: RENDER CATEGORY GRID
+    ──────────────────────────────────────── */
+    const gridContainer = document.getElementById('categoryGrid');
+    gridContainer.innerHTML = MENU_DATA.map((cat, i) => `
+      <div class="cat-tile" data-cat-id="${cat.id}">
+        <div class="cat-tile-img">
+          <div class="cat-tile-placeholder">
+            ${SVG_ARCH}
+            <span>${cat.category}</span>
+          </div>
+          <img src="${cat.image}" alt="${cat.category}" data-placeholder="true" onerror="handleImgError(this)" loading="lazy">
+          <div class="cat-tile-overlay">
+            <div class="cat-tile-name">${cat.category}</div>
+            <div class="cat-tile-count">${cat.dishes.length} items</div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    gridContainer.querySelectorAll('.cat-tile').forEach(tile => {
+      tile.addEventListener('click', () => showCategoryDetail(tile.dataset.catId));
+    });
+
+    /* ────────────────────────────────────────
+       SCREEN 4: RENDER CATEGORY DETAIL
+    ──────────────────────────────────────── */
+    const detailNav = document.getElementById('detailNav');
+    const detailContent = document.getElementById('detailContent');
+    let currentCatId = null;
+
+    function showCategoryDetail(catId) {
+      currentCatId = catId;
+      
+      // Render Nav
+      detailNav.innerHTML = MENU_DATA.map(cat =>
+        `<button class="detail-pill${cat.id === catId ? ' active' : ''}" data-cat-id="${cat.id}">${cat.category}</button>`
+      ).join('');
+      setTimeout(() => {
+        const active = detailNav.querySelector('.detail-pill.active');
+        if (active) active.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }, 50);
+
+      // Render Content
+      const cat = MENU_DATA.find(c => c.id === catId);
+      detailContent.innerHTML = `
+        <div class="section-header">
+          ${SVG_ARCH_ICON}
+          <h2>${cat.category}</h2>
+          <span class="header-rule"></span>
+        </div>` + cat.dishes.map(dish => {
+        const vegClass = dish.veg ? '' : ' non-veg';
+        let badgeHTML = '';
+        if (dish.badge === 'bestseller') badgeHTML = `<span class="badge">${SVG_STAR} Bestseller</span>`;
+        if (dish.badge === 'chef') badgeHTML = `<span class="badge">${SVG_FLAME} Chef's Special</span>`;
+        return `
+          <div class="dish-card">
+            <div class="dish-thumb">
+              <div class="dish-thumb-placeholder">${SVG_LEAF}</div>
+              <img src="${dish.image}" alt="${dish.name}" data-placeholder="true" onerror="handleImgError(this)" loading="lazy">
+              <span class="veg-indicator${vegClass}"><span class="dot"></span></span>
+            </div>
+            <div class="dish-body">
+              <div class="dish-top-row">
+                <div class="dish-info">
+                  ${badgeHTML ? `<div class="dish-meta">${badgeHTML}</div>` : ''}
+                  <h3 class="dish-name">${dish.name}</h3>
+                  <p class="dish-desc">${dish.desc}</p>
+                </div>
+                <span class="dish-price">₹${dish.price}</span>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+
+      showScreen('screenDetail');
+      
+      // Stagger dish cards
+      setTimeout(() => {
+        detailContent.querySelectorAll('.dish-card').forEach((card, i) => {
+          setTimeout(() => card.classList.add('visible'), i * 70);
+        });
+      }, 50);
+    }
+
+    document.getElementById('backBtn').addEventListener('click', () => {
+      showScreen('screenGrid');
+    });
+
+    detailNav.addEventListener('click', e => {
+      const pill = e.target.closest('.detail-pill');
+      if (pill && pill.dataset.catId !== currentCatId) showCategoryDetail(pill.dataset.catId);
+    });
+
+    /* ────────────────────────────────────────
+       SCROLL EFFECTS
+    ──────────────────────────────────────── */
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('compact', window.scrollY > 60);
+    }, { passive: true });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  </script>
+</body>
+</html>
