@@ -215,6 +215,11 @@
     /* ─────────────────────────────────────────────
        SCREEN 3 — CATEGORY GRID
     ───────────────────────────────────────────── */
+    .section-title {
+      font-family: var(--font-heading); font-size: 26px; font-weight: 700;
+      color: var(--warm-cream); text-align: center; margin-bottom: 24px;
+      letter-spacing: 0.5px;
+    }
     .category-grid-section { max-width: 640px; margin: 0 auto; padding: 0 16px 32px; }
 
     .category-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
@@ -357,6 +362,7 @@
   <div id="screenOffers" class="screen">
     <section class="offers-screen">
       <div class="offers-content">
+        <h2 class="section-title">Today's Offer</h2>
         <div id="offersContainer"></div>
 
         <div class="gold-divider" style="padding: 10px 0 20px;">
@@ -389,6 +395,12 @@
   ═══════════════════════════════════════════ -->
   <div id="screenGrid" class="screen">
     <div class="category-grid-section">
+      <div class="detail-top-bar" style="margin-bottom: 24px;">
+        <button class="back-btn" id="backToOffersBtn" aria-label="Back">
+          <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+        </button>
+        <h2 class="detail-cat-title">Categories</h2>
+      </div>
       <div class="category-grid" id="categoryGrid">
         <!-- Tiles injected by JS -->
       </div>
@@ -523,7 +535,7 @@
     const menuShared = document.getElementById('menuShared');
     const siteFooter = document.getElementById('siteFooter');
 
-    function showScreen(id) {
+    function showScreen(id, pushHistory = true) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
       window.scrollTo({ top: 0, behavior: 'instant' });
@@ -536,6 +548,28 @@
         menuShared.style.display = 'none';
         siteFooter.style.display = 'none';
       }
+
+      if (pushHistory) {
+        history.pushState({ screen: id, catId: currentCatId }, "", "");
+      }
+    }
+
+    // Handle back button / swipe gesture
+    window.addEventListener('popstate', (e) => {
+      if (e.state && e.state.screen) {
+        if (e.state.screen === 'screenDetail' && e.state.catId) {
+          currentCatId = e.state.catId;
+          const cat = MENU_DATA.find(c => c.id === currentCatId);
+          if (cat) document.getElementById('detailCatTitle').textContent = cat.category;
+        }
+        showScreen(e.state.screen, false);
+      } else {
+        showScreen('screenOffers', false);
+      }
+    });
+
+    if (!history.state) {
+      history.replaceState({ screen: 'screenOffers' }, "", "");
     }
 
     // Logo click returns to offers
@@ -589,7 +623,7 @@
       if (splashDismissed) return;
       splashDismissed = true;
       splash.classList.add('hidden');
-      showScreen('screenOffers');
+      showScreen('screenOffers', false);
       setTimeout(animateOffers, 400);
     }
     let splashTime = 2200;
@@ -686,7 +720,11 @@
     }
 
     document.getElementById('backBtn').addEventListener('click', () => {
-      showScreen('screenGrid');
+      history.back();
+    });
+
+    document.getElementById('backToOffersBtn').addEventListener('click', () => {
+      history.back();
     });
 
 
