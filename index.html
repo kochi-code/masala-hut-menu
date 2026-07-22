@@ -122,13 +122,7 @@
     .header-logo-img { height: 36px; width: auto; flex-shrink: 0; transition: height .3s; }
     #site-header.compact .header-logo-img { height: 28px; }
 
-    .header-cta {
-      width: 38px; height: 38px; border-radius: 50%; background: var(--spice-red);
-      display: flex; align-items: center; justify-content: center;
-      transition: transform .2s, background .2s; flex-shrink: 0;
-    }
-    .header-cta:hover { transform: scale(1.08); background: #bf151b; }
-    .header-cta svg { width: 18px; height: 18px; fill: #fff; }
+
 
     /* ─────────────────────────────────────────────
        SCREENS MANAGEMENT
@@ -153,17 +147,7 @@
       z-index: 0;
     }
     .offers-content { position: relative; z-index: 1; width: 100%; max-width: 520px; }
-    .offers-logo-img { height: 56px; width: auto; max-width: 100%; object-fit: contain; margin: 0 auto 16px; display: block; }
 
-    .offers-label {
-      font-family: var(--font-body); font-size: 13px; font-weight: 700;
-      letter-spacing: 3.5px; text-transform: uppercase; color: var(--royal-gold);
-      margin-bottom: 6px;
-    }
-    .offers-date {
-      font-family: var(--font-body); font-size: 12px; font-weight: 400; color: var(--muted-cream);
-      margin-bottom: 24px; letter-spacing: .3px;
-    }
 
     /* Offer Card with Image */
     .offer-card {
@@ -229,28 +213,10 @@
     .gold-divider .mandala { width: 24px; height: 24px; flex-shrink: 0; }
 
     /* ─────────────────────────────────────────────
-       COMPACT HERO BANNER (Screens 3 & 4)
-    ───────────────────────────────────────────── */
-    .menu-hero { position: relative; padding: 24px 24px 16px; text-align: center; overflow: hidden; }
-    .menu-hero::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 50% 40%, rgba(215,25,32,.08) 0%, transparent 60%), linear-gradient(180deg, rgba(26,26,26,0) 0%, var(--charcoal-black) 100%);
-      z-index: 0;
-    }
-    .menu-hero-content { position: relative; z-index: 1; }
-    .menu-hero h1 { font-family: var(--font-heading); font-size: clamp(20px, 5.5vw, 28px); font-weight: 700; color: var(--warm-cream); line-height: 1.2; margin-bottom: 4px; }
-    .menu-hero h1 .the { font-weight: 400; font-size: .6em; display: block; letter-spacing: 4px; text-transform: uppercase; color: var(--royal-gold); margin-bottom: 2px; }
-    .menu-hero-tagline { font-size: 12px; font-style: italic; color: var(--muted-cream); letter-spacing: .4px; }
-
-    /* ─────────────────────────────────────────────
        SCREEN 3 — CATEGORY GRID
     ───────────────────────────────────────────── */
     .category-grid-section { max-width: 640px; margin: 0 auto; padding: 0 16px 32px; }
-    .grid-label {
-      font-family: var(--font-body); font-size: 11px; font-weight: 700;
-      letter-spacing: 3px; text-transform: uppercase; color: var(--royal-gold);
-      text-align: center; margin-bottom: 18px;
-    }
+
     .category-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
 
     .cat-tile {
@@ -284,28 +250,16 @@
        SCREEN 4 — CATEGORY DETAIL
     ───────────────────────────────────────────── */
     .detail-section { max-width: 640px; margin: 0 auto; padding: 0 16px 40px; }
+    .detail-top-bar { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-top: 10px; }
+    .detail-cat-title { font-family: var(--font-heading); font-size: 22px; font-weight: 700; color: var(--warm-cream); letter-spacing: .5px; margin: 0; line-height: 1; }
     .back-btn {
-      display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; margin-bottom: 18px;
-      font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; color: var(--royal-gold);
-      border: 1px solid rgba(212,175,55,.25); border-radius: 20px; transition: all .2s; cursor: pointer; background: transparent;
+      display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; flex-shrink: 0;
+      border: 1px solid rgba(212,175,55,.25); border-radius: 50%; transition: all .2s; cursor: pointer; background: transparent; padding: 0;
     }
     .back-btn:hover { background: rgba(212,175,55,.1); border-color: var(--royal-gold); }
-    .back-btn svg { width: 14px; height: 14px; fill: var(--royal-gold); }
+    .back-btn svg { width: 18px; height: 18px; fill: var(--royal-gold); }
 
-    .detail-nav { display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 8px; margin-bottom: 20px; }
-    .detail-nav::-webkit-scrollbar { display: none; }
-    .detail-pill {
-      flex-shrink: 0; padding: 6px 14px; border-radius: 18px;
-      font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase;
-      border: 1px solid var(--royal-gold); color: var(--warm-cream); background: transparent; transition: all .25s ease; white-space: nowrap; cursor: pointer;
-    }
-    .detail-pill:hover { background: rgba(212,175,55,.12); }
-    .detail-pill.active { background: var(--spice-red); border-color: var(--spice-red); }
 
-    .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
-    .section-header .arch-icon { width: 22px; height: 22px; flex-shrink: 0; }
-    .section-header h2 { font-family: var(--font-heading); font-size: 22px; font-weight: 700; color: var(--warm-cream); letter-spacing: .5px; }
-    .section-header .header-rule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--royal-gold), transparent); }
 
     .dish-card {
       background: var(--charcoal-card); border: 1px solid rgba(212,175,55,.12); border-radius: 12px;
@@ -349,18 +303,9 @@
     /* ─────────────────────────────────────────────
        FOOTER
     ───────────────────────────────────────────── */
-    .site-footer { text-align: center; padding: 10px 24px 40px; max-width: 640px; margin: 0 auto; }
-    .footer-info { font-size: 12px; color: var(--muted-cream); line-height: 1.7; margin-bottom: 20px; }
-    .footer-info strong { color: var(--warm-cream); font-weight: 600; }
-    .wa-btn {
-      display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 14px 24px;
-      background: var(--spice-red); color: #fff; font-family: var(--font-body); font-size: 14px; font-weight: 700;
-      letter-spacing: .8px; text-transform: uppercase; border-radius: 30px; transition: background .2s, transform .2s; margin-bottom: 24px;
-    }
-    .wa-btn:hover { background: #bf151b; transform: scale(1.02); }
-    .wa-btn svg { width: 20px; height: 20px; fill: #fff; }
-    .footer-tagline { font-family: var(--font-heading); font-style: italic; font-size: 14px; color: var(--royal-gold); margin-bottom: 16px; }
-    .footer-credit { font-size: 10px; color: rgba(184,176,160,.4); letter-spacing: .5px; }
+    .site-footer { text-align: center; padding: 20px 24px 40px; max-width: 640px; margin: 0 auto; border-top: 1px solid rgba(212,175,55,.25); }
+    .footer-info { font-size: 12px; color: var(--muted-cream); line-height: 1.7; margin-bottom: 12px; }
+    .footer-tagline { font-family: var(--font-body); font-size: 13px; font-style: italic; color: var(--royal-gold); }
 
     /* ─────────────────────────────────────────────
        SCROLL-REVEAL
@@ -373,7 +318,6 @@
     ───────────────────────────────────────────── */
     @media (min-width: 480px) { .dish-thumb { width: 88px; height: 88px; } .dish-name { font-size: 16px; } }
     @media (min-width: 600px) {
-      .menu-hero { padding: 36px 40px 24px; } .menu-hero h1 { font-size: 30px; }
       .offers-screen { padding: 40px 32px 48px; } .offer-name { font-size: 20px; } .offer-desc { font-size: 13px; }
       .category-grid { gap: 16px; } .cat-tile-name { font-size: 18px; }
       .dish-thumb { width: 96px; height: 96px; } .dish-card { padding: 14px; } .dish-name { font-size: 17px; } .dish-desc { font-size: 12px; } .section-header h2 { font-size: 26px; }
@@ -404,9 +348,6 @@
       <div class="header-left" id="headerLogo">
         <img class="header-logo-img" src="images/logo-full-cropped.png" alt="The Grand Masala Hut">
       </div>
-      <a class="header-cta" href="https://wa.me/919876543210?text=Hi%2C%20I'd%20like%20to%20place%20an%20order" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.12 1.52 5.856L0 24l6.335-1.652A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75c-1.875 0-3.654-.5-5.212-1.424l-.375-.222-3.876 1.01 1.032-3.78-.243-.387A9.71 9.71 0 012.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75z"/></svg>
-      </a>
     </div>
   </header>
 
@@ -416,10 +357,6 @@
   <div id="screenOffers" class="screen">
     <section class="offers-screen">
       <div class="offers-content">
-        <img class="offers-logo-img" src="images/logo-full-cropped.png" alt="The Grand Masala Hut">
-        <div class="offers-label">TODAY'S OFFERS</div>
-        <div class="offers-date" id="offersDate"></div>
-
         <div id="offersContainer"></div>
 
         <div class="gold-divider" style="padding: 10px 0 20px;">
@@ -437,15 +374,9 @@
   </div>
 
   <!-- ═══════════════════════════════════════════
-       MENU SHARED ELEMENTS (Hero + Divider)
+       MENU SHARED ELEMENTS
   ═══════════════════════════════════════════ -->
   <div id="menuShared" style="display: none;">
-    <section class="menu-hero">
-      <div class="menu-hero-content">
-        <h1><span class="the">The</span>Grand Masala Hut</h1>
-        <p class="menu-hero-tagline">Eat with delight and savor every bite.</p>
-      </div>
-    </section>
     <div class="gold-divider">
       <span class="line"></span>
       <svg class="mandala" viewBox="0 0 40 40" fill="none"><g stroke="#D4AF37" stroke-width="1" fill="none"><ellipse cx="20" cy="20" rx="3" ry="9"/><ellipse cx="20" cy="20" rx="3" ry="9" transform="rotate(45 20 20)"/><ellipse cx="20" cy="20" rx="3" ry="9" transform="rotate(90 20 20)"/><ellipse cx="20" cy="20" rx="3" ry="9" transform="rotate(135 20 20)"/></g><circle cx="20" cy="20" r="2.5" fill="#D4AF37"/></svg>
@@ -458,7 +389,6 @@
   ═══════════════════════════════════════════ -->
   <div id="screenGrid" class="screen">
     <div class="category-grid-section">
-      <div class="grid-label">Explore Our Menu</div>
       <div class="category-grid" id="categoryGrid">
         <!-- Tiles injected by JS -->
       </div>
@@ -470,11 +400,12 @@
   ═══════════════════════════════════════════ -->
   <div id="screenDetail" class="screen">
     <div class="detail-section">
-      <button class="back-btn" id="backBtn">
-        <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-        All Categories
-      </button>
-      <div class="detail-nav" id="detailNav"></div>
+      <div class="detail-top-bar">
+        <button class="back-btn" id="backBtn" aria-label="Back">
+          <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+        </button>
+        <h2 class="detail-cat-title" id="detailCatTitle"></h2>
+      </div>
       <div id="detailContent"></div>
     </div>
   </div>
@@ -483,24 +414,13 @@
        FOOTER
   ═══════════════════════════════════════════ -->
   <footer class="site-footer" id="siteFooter" style="display: none;">
-    <div class="gold-divider reveal">
-      <span class="line"></span>
-      <svg class="mandala" viewBox="0 0 40 40" fill="none"><g stroke="#D4AF37" stroke-width="1" fill="none"><ellipse cx="20" cy="20" rx="3" ry="9"/><ellipse cx="20" cy="20" rx="3" ry="9" transform="rotate(45 20 20)"/><ellipse cx="20" cy="20" rx="3" ry="9" transform="rotate(90 20 20)"/><ellipse cx="20" cy="20" rx="3" ry="9" transform="rotate(135 20 20)"/></g><circle cx="20" cy="20" r="2.5" fill="#D4AF37"/></svg>
-      <span class="line"></span>
-    </div>
+    <div style="height: 1px; background: rgba(212,175,55,0.3); margin: 0 auto 20px; width: 100%; max-width: 150px;"></div>
     <div class="footer-info">
-      <strong>The Grand Masala Hut</strong><br>
-      Ground Floor, Spice Tower, MG Road<br>
-      Kochi, Kerala 682016<br><br>
-      <strong>Hours:</strong> 11:30 AM – 11:00 PM (All days)<br>
-      <strong>Phone:</strong> +91 98765 43210
+      Ground Floor, Spice Tower, MG Road, Kochi, Kerala 682016<br>
+      Phone: +91 98765 43210<br>
+      Hours: 11:30 AM – 11:00 PM (All days)
     </div>
-    <a class="wa-btn" href="https://wa.me/919876543210?text=Hi%2C%20I'd%20like%20to%20place%20an%20order%20from%20The%20Grand%20Masala%20Hut" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.12 1.52 5.856L0 24l6.335-1.652A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75c-1.875 0-3.654-.5-5.212-1.424l-.375-.222-3.876 1.01 1.032-3.78-.243-.387A9.71 9.71 0 012.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75z"/></svg>
-      Order on WhatsApp
-    </a>
-    <p class="footer-tagline">"Eat with delight and savor every bite."</p>
-    <p class="footer-credit">Powered by Kochi.Code</p>
+    <p class="footer-tagline">Eat with delight and savor every bite.</p>
   </footer>
 
   <!-- ═══════════════════════════════════════════
@@ -624,11 +544,6 @@
       animateOffers();
     });
 
-    /* ────────────────────────────────────────
-       SCREEN 2: RENDER OFFERS
-    ──────────────────────────────────────── */
-    document.getElementById('offersDate').textContent = new Date().toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'long' });
-
     const offersContainer = document.getElementById('offersContainer');
     offersContainer.innerHTML = OFFERS_DATA.map(offer => {
       let badgeIcon = SVG_FLAME;
@@ -725,30 +640,17 @@
     /* ────────────────────────────────────────
        SCREEN 4: RENDER CATEGORY DETAIL
     ──────────────────────────────────────── */
-    const detailNav = document.getElementById('detailNav');
     const detailContent = document.getElementById('detailContent');
     let currentCatId = null;
 
     function showCategoryDetail(catId) {
       currentCatId = catId;
-      
-      // Render Nav
-      detailNav.innerHTML = MENU_DATA.map(cat =>
-        `<button class="detail-pill${cat.id === catId ? ' active' : ''}" data-cat-id="${cat.id}">${cat.category}</button>`
-      ).join('');
-      setTimeout(() => {
-        const active = detailNav.querySelector('.detail-pill.active');
-        if (active) active.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-      }, 50);
 
-      // Render Content
       const cat = MENU_DATA.find(c => c.id === catId);
-      detailContent.innerHTML = `
-        <div class="section-header">
-          ${SVG_ARCH_ICON}
-          <h2>${cat.category}</h2>
-          <span class="header-rule"></span>
-        </div>` + cat.dishes.map(dish => {
+      
+      document.getElementById('detailCatTitle').textContent = cat.category;
+      // Render Content
+      detailContent.innerHTML = cat.dishes.map(dish => {
         const vegClass = dish.veg ? '' : ' non-veg';
         let badgeHTML = '';
         if (dish.badge === 'bestseller') badgeHTML = `<span class="badge">${SVG_STAR} Bestseller</span>`;
@@ -787,10 +689,6 @@
       showScreen('screenGrid');
     });
 
-    detailNav.addEventListener('click', e => {
-      const pill = e.target.closest('.detail-pill');
-      if (pill && pill.dataset.catId !== currentCatId) showCategoryDetail(pill.dataset.catId);
-    });
 
     /* ────────────────────────────────────────
        SCROLL EFFECTS
