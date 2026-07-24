@@ -190,6 +190,16 @@
     .offer-original-price { font-family: var(--font-body); font-size: 14px; font-weight: 500; color: var(--muted-cream); text-decoration: line-through; opacity: .65; }
     .offer-price { font-family: var(--font-body); font-size: 20px; font-weight: 700; color: var(--saffron-yellow); }
 
+    .offers-section-title {
+      font-family: var(--font-body); font-size: 16px; font-weight: 700;
+      color: var(--royal-gold); text-align: center; margin-bottom: 4px;
+      letter-spacing: 3px; text-transform: uppercase;
+    }
+    .offers-date {
+      font-family: var(--font-body); font-size: 11px; font-weight: 500;
+      color: var(--muted-cream); text-align: center; margin-bottom: 20px;
+    }
+
     /* View Full Menu CTA */
     .view-menu-cta {
       display: flex; align-items: center; justify-content: center; gap: 10px;
@@ -362,8 +372,18 @@
   <div id="screenOffers" class="screen">
     <section class="offers-screen">
       <div class="offers-content">
-        <h2 class="section-title">Today's Offer</h2>
-        <div id="offersContainer"></div>
+        <h2 class="offers-section-title">TODAY'S OFFERS</h2>
+        <div class="offers-date" id="offersDate"></div>
+        <div id="todaysOffersContainer"></div>
+
+        <div class="gold-divider" style="padding: 10px 0 20px;">
+          <span class="line"></span>
+          <svg class="mandala" viewBox="0 0 40 40" fill="none"><g stroke="#D4AF37" stroke-width="1" fill="none"><ellipse cx="20" cy="20" rx="3" ry="9"/><ellipse cx="20" cy="20" rx="3" ry="9" transform="rotate(45 20 20)"/><ellipse cx="20" cy="20" rx="3" ry="9" transform="rotate(90 20 20)"/><ellipse cx="20" cy="20" rx="3" ry="9" transform="rotate(135 20 20)"/></g><circle cx="20" cy="20" r="2.5" fill="#D4AF37"/></svg>
+          <span class="line"></span>
+        </div>
+
+        <h2 class="offers-section-title" style="margin-bottom: 24px;">COMBO OFFERS</h2>
+        <div id="comboOffersContainer"></div>
 
         <div class="gold-divider" style="padding: 10px 0 20px;">
           <span class="line"></span>
@@ -442,7 +462,12 @@
     /* ────────────────────────────────────────
        DATA: OFFERS & MENU
     ──────────────────────────────────────── */
-    const OFFERS_DATA = [
+    const TODAYS_OFFERS = [
+      { name: "Paneer Tikka Special", desc: "Our signature cottage cheese starter at a steal.", originalPrice: 280, offerPrice: 199, badge: "Today Only", image: "images/dishes/paneer-tikka.jpg" },
+      { name: "Fish Curry Special", desc: "Fresh catch cooked in authentic Kerala spices.", originalPrice: 350, offerPrice: 249, badge: "Chef's Pick", image: "images/offers/fish-curry.jpg" }
+    ];
+
+    const COMBO_OFFERS = [
       { name: "Grand Feast Combo", desc: "1 Butter Chicken + 2 Butter Naan + 1 Jeera Rice", originalPrice: 899, offerPrice: 699, badge: "Today Only", image: "images/offers/grand-feast-combo.jpg" },
       { name: "Tandoori Duo Combo", desc: "Chicken Tikka + Seekh Kebab + Mint Chutney", originalPrice: 649, offerPrice: 499, badge: "Limited Time", image: "images/offers/tandoori-duo-combo.jpg" },
       { name: "Family Biryani Combo", desc: "2 Chicken Biryani + 1 Raita + 1 Gulab Jamun (2pc)", originalPrice: 999, offerPrice: 799, badge: "Chef's Pick", image: "images/offers/family-biryani-combo.jpg" },
@@ -578,30 +603,36 @@
       animateOffers();
     });
 
-    const offersContainer = document.getElementById('offersContainer');
-    offersContainer.innerHTML = OFFERS_DATA.map(offer => {
-      let badgeIcon = SVG_FLAME;
-      if (offer.badge.toLowerCase().includes('limited')) badgeIcon = SVG_CLOCK;
-      if (offer.badge.toLowerCase().includes('chef')) badgeIcon = SVG_STAR;
-      
-      const originalHTML = offer.originalPrice ? `<span class="offer-original-price">₹${offer.originalPrice}</span>` : '';
-      return `
-        <div class="offer-card">
-          <div class="offer-img-wrap">
-            <div class="offer-placeholder">${SVG_ARCH}</div>
-            <img src="${offer.image}" alt="${offer.name}" data-placeholder="true" onerror="handleImgError(this)" loading="lazy">
-          </div>
-          <div class="offer-card-body">
-            <span class="offer-badge">${badgeIcon} ${offer.badge}</span>
-            <h3 class="offer-name">${offer.name}</h3>
-            <p class="offer-desc">${offer.desc}</p>
-            <div class="offer-pricing">
-              ${originalHTML}
-              <span class="offer-price">₹${offer.offerPrice}</span>
+    document.getElementById('offersDate').textContent = new Date().toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'long' });
+
+    function renderOfferCards(offersArray) {
+      return offersArray.map(offer => {
+        let badgeIcon = SVG_FLAME;
+        if (offer.badge.toLowerCase().includes('limited')) badgeIcon = SVG_CLOCK;
+        if (offer.badge.toLowerCase().includes('chef')) badgeIcon = SVG_STAR;
+        
+        const originalHTML = offer.originalPrice ? `<span class="offer-original-price">₹${offer.originalPrice}</span>` : '';
+        return `
+          <div class="offer-card">
+            <div class="offer-img-wrap">
+              <div class="offer-placeholder">${SVG_ARCH}</div>
+              <img src="${offer.image}" alt="${offer.name}" data-placeholder="true" onerror="handleImgError(this)" loading="lazy">
             </div>
-          </div>
-        </div>`;
-    }).join('');
+            <div class="offer-card-body">
+              <span class="offer-badge">${badgeIcon} ${offer.badge}</span>
+              <h3 class="offer-name">${offer.name}</h3>
+              <p class="offer-desc">${offer.desc}</p>
+              <div class="offer-pricing">
+                ${originalHTML}
+                <span class="offer-price">₹${offer.offerPrice}</span>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    document.getElementById('todaysOffersContainer').innerHTML = renderOfferCards(TODAYS_OFFERS);
+    document.getElementById('comboOffersContainer').innerHTML = renderOfferCards(COMBO_OFFERS);
 
     function animateOffers() {
       const cards = document.querySelectorAll('.offer-card');
