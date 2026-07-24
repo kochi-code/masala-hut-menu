@@ -154,13 +154,12 @@
       background: var(--charcoal-card);
       border: 1px solid var(--royal-gold);
       border-radius: 14px;
-      margin-bottom: 16px;
       text-align: left;
       position: relative;
       overflow: hidden;
-      opacity: 0; transform: translateY(28px);
+      width: 280px;
+      flex-shrink: 0;
     }
-    .offer-card.visible { opacity: 1; transform: translateY(0); transition: opacity .55s ease, transform .55s ease; }
 
     .offer-img-wrap {
       position: relative; width: 100%; padding-top: 50%; /* 2:1 aspect */
@@ -198,6 +197,67 @@
     .offers-date {
       font-family: var(--font-body); font-size: 11px; font-weight: 500;
       color: var(--muted-cream); text-align: center; margin-bottom: 20px;
+    }
+
+    /* Carousel Styles */
+    .carousel-wrapper {
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      margin-bottom: 24px;
+      overflow: hidden;
+      position: relative;
+      mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+      padding: 10px 0;
+      opacity: 0; transform: translateY(28px);
+    }
+    .carousel-wrapper.visible {
+      opacity: 1; transform: translateY(0);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    @media (min-width: 600px) {
+      .carousel-wrapper {
+         width: 100%;
+         margin-left: 0;
+         mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+         -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+      }
+    }
+    .carousel-track {
+      display: flex;
+      gap: 16px;
+      width: max-content;
+      animation: scrollLeft 35s linear infinite;
+      will-change: transform;
+      padding: 0 8px; /* half gap padding */
+    }
+    .carousel-set {
+      display: flex;
+      gap: 16px;
+    }
+    @keyframes scrollLeft {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(calc(-50% - 8px)); }
+    }
+    .carousel-track.paused {
+      animation-play-state: paused;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .carousel-wrapper {
+        overflow-x: auto;
+        mask-image: none;
+        -webkit-mask-image: none;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 20px;
+      }
+      .carousel-track {
+        animation: none;
+        width: auto;
+      }
+      .carousel-wrapper::-webkit-scrollbar { height: 4px; }
+      .carousel-wrapper::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.4); border-radius: 4px; }
+      .offer-card { scroll-snap-align: start; }
+      .carousel-set:nth-child(2) { display: none; }
     }
 
     /* View Full Menu CTA */
@@ -374,7 +434,7 @@
       <div class="offers-content">
         <h2 class="offers-section-title">TODAY'S OFFERS</h2>
         <div class="offers-date" id="offersDate"></div>
-        <div id="todaysOffersContainer"></div>
+        <div id="todaysOffersContainer" class="carousel-wrapper"></div>
 
         <div class="gold-divider" style="padding: 10px 0 20px;">
           <span class="line"></span>
@@ -383,7 +443,7 @@
         </div>
 
         <h2 class="offers-section-title" style="margin-bottom: 24px;">COMBO OFFERS</h2>
-        <div id="comboOffersContainer"></div>
+        <div id="comboOffersContainer" class="carousel-wrapper"></div>
 
         <div class="gold-divider" style="padding: 10px 0 20px;">
           <span class="line"></span>
@@ -606,7 +666,7 @@
     document.getElementById('offersDate').textContent = new Date().toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'long' });
 
     function renderOfferCards(offersArray) {
-      return offersArray.map(offer => {
+      const cardsHTML = offersArray.map(offer => {
         let badgeIcon = SVG_FLAME;
         if (offer.badge.toLowerCase().includes('limited')) badgeIcon = SVG_CLOCK;
         if (offer.badge.toLowerCase().includes('chef')) badgeIcon = SVG_STAR;
@@ -629,19 +689,43 @@
             </div>
           </div>`;
       }).join('');
+
+      return `
+        <div class="carousel-track">
+          <div class="carousel-set">${cardsHTML}</div>
+          <div class="carousel-set" aria-hidden="true">${cardsHTML}</div>
+        </div>
+      `;
     }
 
     document.getElementById('todaysOffersContainer').innerHTML = renderOfferCards(TODAYS_OFFERS);
     document.getElementById('comboOffersContainer').innerHTML = renderOfferCards(COMBO_OFFERS);
 
+    document.querySelectorAll('.carousel-track').forEach(track => {
+      let pauseTimeout;
+      const pause = () => {
+        track.classList.add('paused');
+        clearTimeout(pauseTimeout);
+      };
+      const resume = () => {
+        pauseTimeout = setTimeout(() => {
+          track.classList.remove('paused');
+        }, 1500);
+      };
+      track.addEventListener('mouseenter', pause);
+      track.addEventListener('mouseleave', resume);
+      track.addEventListener('touchstart', pause, {passive: true});
+      track.addEventListener('touchend', resume, {passive: true});
+    });
+
     function animateOffers() {
-      const cards = document.querySelectorAll('.offer-card');
+      const wrappers = document.querySelectorAll('.carousel-wrapper');
       const cta = document.getElementById('viewMenuCta');
-      cards.forEach(c => c.classList.remove('visible'));
+      wrappers.forEach(w => w.classList.remove('visible'));
       cta.classList.remove('visible');
       setTimeout(() => {
-        cards.forEach((card, i) => setTimeout(() => card.classList.add('visible'), 150 + i * 140));
-        setTimeout(() => cta.classList.add('visible'), 150 + cards.length * 140 + 100);
+        wrappers.forEach((w, i) => setTimeout(() => w.classList.add('visible'), 150 + i * 140));
+        setTimeout(() => cta.classList.add('visible'), 150 + wrappers.length * 140 + 100);
       }, 50);
     }
 
