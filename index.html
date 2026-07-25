@@ -367,6 +367,11 @@
     .dish-name { font-family: var(--font-heading); font-size: 15px; font-weight: 700; color: var(--warm-cream); line-height: 1.25; margin-bottom: 3px; }
     .dish-desc { font-size: 11px; font-weight: 400; color: var(--muted-cream); line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .dish-price { font-family: var(--font-body); font-size: 15px; font-weight: 700; color: var(--saffron-yellow); white-space: nowrap; flex-shrink: 0; padding-top: 1px; }
+    
+    .dish-price-options { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .price-pill { display: flex; align-items: center; border: 1px solid rgba(212,175,55,.3); border-radius: 4px; overflow: hidden; background: rgba(0,0,0,.2); }
+    .pill-label { background: rgba(212,175,55,.1); color: var(--muted-cream); font-size: 10px; font-weight: 600; padding: 4px 6px; text-transform: uppercase; }
+    .pill-value { color: var(--saffron-yellow); font-size: 11px; font-weight: 700; padding: 4px 6px; }
 
     /* ─────────────────────────────────────────────
        FOOTER
@@ -847,8 +852,9 @@
                       <div class="search-result-cat-label">${dish.category}</div>
                       ${badgeHTML ? `<div class="dish-meta">${badgeHTML}</div>` : ''}
                       <h3 class="dish-name">${dish.name}</h3>
+                      ${dish.priceOptions ? `<div class="dish-price-options">${dish.priceOptions.map(opt => `<div class="price-pill"><span class="pill-label">${opt.label}</span><span class="pill-value">₹${opt.price}</span></div>`).join('')}</div>` : ''}
                     </div>
-                    <span class="dish-price">₹${dish.price}</span>
+                    ${dish.priceOptions ? '' : `<span class="dish-price">₹${dish.price}</span>`}
                   </div>
                 </div>
               </div>`;
@@ -897,8 +903,9 @@
                   ${badgeHTML ? `<div class="dish-meta">${badgeHTML}</div>` : ''}
                   <h3 class="dish-name">${dish.name}</h3>
                   ${dish.desc ? `<p class="dish-desc">${dish.desc}</p>` : ''}
+                  ${dish.priceOptions ? `<div class="dish-price-options">${dish.priceOptions.map(opt => `<div class="price-pill"><span class="pill-label">${opt.label}</span><span class="pill-value">₹${opt.price}</span></div>`).join('')}</div>` : ''}
                 </div>
-                <span class="dish-price">₹${dish.price}</span>
+                ${dish.priceOptions ? '' : `<span class="dish-price">₹${dish.price}</span>`}
               </div>
             </div>
           </div>`;
