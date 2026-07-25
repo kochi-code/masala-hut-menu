@@ -166,7 +166,7 @@
       background: var(--charcoal-deep); overflow: hidden;
       border-bottom: 1px solid rgba(212,175,55,.15);
     }
-    .offer-img-wrap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .offer-img-wrap img { position: absolute; z-index: 1; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     .offer-placeholder {
       position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
       background: radial-gradient(ellipse at 50% 50%, rgba(212,175,55,.06) 0%, transparent 70%), var(--charcoal-deep); z-index: 0;
@@ -297,6 +297,7 @@
     .cat-tile {
       position: relative; border-radius: 14px; overflow: hidden;
       border: 1px solid var(--royal-gold); cursor: pointer;
+      background: var(--charcoal-deep);
       transition: transform .25s ease, box-shadow .25s ease;
       opacity: 0; transform: translateY(20px);
     }
@@ -305,21 +306,13 @@
     .cat-tile:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,.4); }
     .cat-tile:active { transform: scale(.97); }
 
-    .cat-tile-img { position: relative; width: 100%; padding-top: 75%; background: var(--charcoal-deep); overflow: hidden; }
-    .cat-tile-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .3s; }
-    .cat-tile-placeholder {
-      position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
-      background: radial-gradient(ellipse at 50% 50%, rgba(212,175,55,.06) 0%, transparent 70%), var(--charcoal-deep); z-index: 0;
-    }
-    .cat-tile-placeholder svg { width: 36px; height: 36px; opacity: .35; }
-    .cat-tile-placeholder span { font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--royal-gold); opacity: .4; }
-    
-    .cat-tile-overlay {
-      position: absolute; bottom: 0; left: 0; right: 0; padding: 24px 14px 14px;
-      background: linear-gradient(transparent, rgba(26,26,26,.85) 60%, rgba(26,26,26,.95)); z-index: 2;
+    .cat-tile-content {
+      padding: 24px 16px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; min-height: 100px;
     }
     .cat-tile-name { font-family: var(--font-heading); font-size: 16px; font-weight: 700; color: var(--warm-cream); line-height: 1.2; }
-    .cat-tile-count { font-family: var(--font-body); font-size: 10px; font-weight: 500; color: var(--muted-cream); margin-top: 2px; letter-spacing: .3px; }
+    .cat-tile-count { font-family: var(--font-body); font-size: 10px; font-weight: 500; color: var(--muted-cream); margin-top: 6px; letter-spacing: .3px; }
 
     /* ─────────────────────────────────────────────
        SCREEN 4 — CATEGORY DETAIL
@@ -345,7 +338,7 @@
     .dish-card:hover { border-color: rgba(212,175,55,.25); box-shadow: 0 4px 24px rgba(0,0,0,.3); }
 
     .dish-thumb { position: relative; width: 80px; height: 80px; border-radius: 10px; overflow: hidden; flex-shrink: 0; background: var(--charcoal-deep); }
-    .dish-thumb img { width: 100%; height: 100%; object-fit: cover; transition: opacity .3s; }
+    .dish-thumb img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; transition: opacity .3s; }
     .dish-thumb-placeholder {
       position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
       background: radial-gradient(ellipse at 50% 50%, rgba(212,175,55,.06) 0%, transparent 70%), var(--charcoal-deep); z-index: 0;
@@ -401,6 +394,21 @@
       .category-grid-section, .detail-section { max-width: 720px; } .category-grid { grid-template-columns: repeat(3, 1fr); }
       .offers-content { max-width: 580px; }
     }
+    /* ─────────────────────────────────────────────
+       SEARCH BAR
+    ───────────────────────────────────────────── */
+    .search-container { position: relative; margin-bottom: 24px; }
+    .search-input { 
+      width: 100%; background: var(--charcoal-deep); border: 1px solid var(--royal-gold); 
+      border-radius: 12px; padding: 14px 44px; color: var(--warm-cream); 
+      font-family: var(--font-body); font-size: 15px; outline: none; transition: box-shadow 0.2s;
+    }
+    .search-input::placeholder { color: rgba(250, 240, 230, 0.4); font-family: var(--font-heading); }
+    .search-input:focus { box-shadow: 0 0 0 1px var(--royal-gold); }
+    .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; color: var(--royal-gold); }
+    .search-clear { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; color: var(--muted-cream); cursor: pointer; display: none; }
+    .search-clear.visible { display: block; }
+    .search-result-cat-label { font-size: 10px; color: var(--royal-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 600; }
   </style>
 </head>
 <body>
@@ -481,9 +489,17 @@
         </button>
         <h2 class="detail-cat-title">Categories</h2>
       </div>
+
+      <div class="search-container" id="searchContainer">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search dishes..." autocomplete="off">
+        <svg id="clearSearchBtn" class="search-clear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </div>
+
       <div class="category-grid" id="categoryGrid">
         <!-- Tiles injected by JS -->
       </div>
+      <div id="searchResultsContainer" style="display: none; padding-bottom: 24px;"></div>
     </div>
   </div>
 
@@ -522,81 +538,17 @@
     /* ────────────────────────────────────────
        DATA: OFFERS & MENU
     ──────────────────────────────────────── */
-    const TODAYS_OFFERS = [
-      { name: "Paneer Tikka Special", desc: "Our signature cottage cheese starter at a steal.", originalPrice: 280, offerPrice: 199, badge: "Today Only", image: "images/dishes/paneer-tikka.jpg" },
-      { name: "Fish Curry Special", desc: "Fresh catch cooked in authentic Kerala spices.", originalPrice: 350, offerPrice: 249, badge: "Chef's Pick", image: "images/offers/fish-curry.jpg" }
-    ];
 
-    const COMBO_OFFERS = [
-      { name: "Grand Feast Combo", desc: "1 Butter Chicken + 2 Butter Naan + 1 Jeera Rice", originalPrice: 899, offerPrice: 699, badge: "Today Only", image: "images/offers/grand-feast-combo.jpg" },
-      { name: "Tandoori Duo Combo", desc: "Chicken Tikka + Seekh Kebab + Mint Chutney", originalPrice: 649, offerPrice: 499, badge: "Limited Time", image: "images/offers/tandoori-duo-combo.jpg" },
-      { name: "Family Biryani Combo", desc: "2 Chicken Biryani + 1 Raita + 1 Gulab Jamun (2pc)", originalPrice: 999, offerPrice: 799, badge: "Chef's Pick", image: "images/offers/family-biryani-combo.jpg" },
-    ];
 
-    const MENU_DATA = [
-      {
-        category: "Starters", id: "starters", image: "images/categories/starters.jpg",
-        dishes: [
-          { name: "Paneer Tikka", desc: "Cottage cheese cubes marinated in spiced yogurt.", price: 280, veg: true, badge: "bestseller", image: "images/dishes/paneer-tikka.jpg" },
-          { name: "Chicken 65", desc: "Deep-fried spicy chicken with curry leaves.", price: 260, veg: false, badge: "bestseller", image: "images/dishes/chicken-65.jpg" },
-          { name: "Masala Papad", desc: "Crispy papad topped with onions and tomatoes.", price: 80, veg: true, image: "images/dishes/masala-papad.jpg" },
-          { name: "Mutton Seekh Kebab", desc: "Minced mutton blended with aromatic spices.", price: 350, veg: false, badge: "chef", image: "images/dishes/mutton-seekh-kebab.jpg" },
-          { name: "Hara Bhara Kebab", desc: "Spinach, peas and potato patties.", price: 220, veg: true, image: "images/dishes/hara-bhara-kebab.jpg" },
-          { name: "Prawn Koliwada", desc: "Batter-fried prawns tossed in a fiery red masala.", price: 380, veg: false, image: "images/dishes/prawn-koliwada.jpg" },
-        ]
-      },
-      {
-        category: "Tandoor & Grill", id: "tandoor", image: "images/categories/tandoor-grill.jpg",
-        dishes: [
-          { name: "Tandoori Chicken (Half)", desc: "Classic whole-leg roasted in clay oven.", price: 320, veg: false, badge: "bestseller", image: "images/dishes/tandoori-chicken-half.jpg" },
-          { name: "Malai Chicken Tikka", desc: "Creamy, mildly-spiced chicken pieces.", price: 300, veg: false, image: "images/dishes/malai-chicken-tikka.jpg" },
-          { name: "Paneer Malai Tikka", desc: "Silky paneer cubes in cream-cashew marinade.", price: 280, veg: true, image: "images/dishes/paneer-malai-tikka.jpg" },
-          { name: "Fish Tikka", desc: "Boneless fish fillets marinated in mustard.", price: 360, veg: false, image: "images/dishes/fish-tikka.jpg" },
-        ]
-      },
-      {
-        category: "Curries", id: "curries", image: "images/categories/curries.jpg",
-        dishes: [
-          { name: "Butter Chicken", desc: "Tender chicken in a rich, velvety tomato-butter gravy.", price: 320, veg: false, badge: "bestseller", image: "images/dishes/butter-chicken.jpg" },
-          { name: "Dal Makhani", desc: "Black lentils slow-simmered overnight.", price: 240, veg: true, badge: "chef", image: "images/dishes/dal-makhani.jpg" },
-          { name: "Paneer Butter Masala", desc: "Cottage cheese cubes in a luscious tomato-cashew gravy.", price: 280, veg: true, image: "images/dishes/paneer-butter-masala.jpg" },
-          { name: "Rogan Josh", desc: "Tender mutton cooked in a Kashmiri-style gravy.", price: 380, veg: false, image: "images/dishes/rogan-josh.jpg" },
-        ]
-      },
-      {
-        category: "Biryani & Rice", id: "biryani", image: "images/categories/biryani-rice.jpg",
-        dishes: [
-          { name: "Hyderabadi Chicken Dum Biryani", desc: "Fragrant basmati rice layered with spiced chicken.", price: 340, veg: false, badge: "bestseller", image: "images/dishes/hyderabadi-chicken-dum-biryani.jpg" },
-          { name: "Mutton Biryani", desc: "Succulent mutton pieces with saffron-kissed rice.", price: 400, veg: false, badge: "chef", image: "images/dishes/mutton-biryani.jpg" },
-          { name: "Veg Biryani", desc: "Seasonal vegetables layered with aromatic basmati.", price: 260, veg: true, image: "images/dishes/veg-biryani.jpg" },
-          { name: "Jeera Rice", desc: "Fluffy basmati rice tempered with cumin seeds.", price: 160, veg: true, image: "images/dishes/jeera-rice.jpg" },
-        ]
-      },
-      {
-        category: "Breads", id: "breads", image: "images/categories/breads.jpg",
-        dishes: [
-          { name: "Butter Naan", desc: "Soft leavened bread brushed with melted butter.", price: 60, veg: true, image: "images/dishes/butter-naan.jpg" },
-          { name: "Garlic Naan", desc: "Naan topped with minced garlic and coriander.", price: 70, veg: true, badge: "bestseller", image: "images/dishes/garlic-naan.jpg" },
-          { name: "Laccha Paratha", desc: "Flaky, layered whole-wheat bread.", price: 60, veg: true, image: "images/dishes/laccha-paratha.jpg" },
-          { name: "Tandoori Roti", desc: "Whole wheat flatbread baked in the clay oven.", price: 40, veg: true, image: "images/dishes/tandoori-roti.jpg" },
-        ]
-      },
-      {
-        category: "Desserts", id: "desserts", image: "images/categories/desserts.jpg",
-        dishes: [
-          { name: "Gulab Jamun", desc: "Golden milk-solid dumplings soaked in syrup. (2 pcs)", price: 120, veg: true, badge: "bestseller", image: "images/dishes/gulab-jamun.jpg" },
-          { name: "Rasmalai", desc: "Flattened paneer dumplings in chilled milk. (2 pcs)", price: 140, veg: true, image: "images/dishes/rasmalai.jpg" },
-          { name: "Kulfi Falooda", desc: "Traditional Indian ice cream with vermicelli.", price: 160, veg: true, badge: "chef", image: "images/dishes/kulfi-falooda.jpg" },
-        ]
-      },
-      {
-        category: "Beverages", id: "beverages", image: "images/categories/beverages.jpg",
-        dishes: [
-          { name: "Masala Chai", desc: "Aromatic spiced tea brewed with ginger and cardamom.", price: 60, veg: true, image: "images/dishes/masala-chai.jpg" },
-          { name: "Mango Lassi", desc: "Thick yogurt shake blended with Alphonso mango.", price: 120, veg: true, badge: "bestseller", image: "images/dishes/mango-lassi.jpg" },
-          { name: "Fresh Lime Soda", desc: "Choice of sweet or salted.", price: 80, veg: true, image: "images/dishes/fresh-lime-soda.jpg" },
-        ]
-      }
+    let allMenuItems = [];
+
+    const categoryOrder = [
+      "BreakFast", "Kerala Curries", "Salad", "Starter Food Items", "Shawai - Grill", 
+      "Indian Bread", "Shawarma", "Meals", "Vegetable Curry", "Fish Curry", 
+      "Hot Beverages", "Mojitto", "Cool Beverages", "Falooda", "Shakes", 
+      "Fresh Juice", "Fried Rice", "Non-Veg Curry (Continental-Chinese)", 
+      "Noodles", "Veg Soup", "Non-Veg Soup", "Evening Bites", "Alfahm", 
+      "Grand Special Recipe", "Fries", "Burger", "Mandhi"
     ];
 
     /* ────────────────────────────────────────
@@ -644,8 +596,7 @@
       if (e.state && e.state.screen) {
         if (e.state.screen === 'screenDetail' && e.state.catId) {
           currentCatId = e.state.catId;
-          const cat = MENU_DATA.find(c => c.id === currentCatId);
-          if (cat) document.getElementById('detailCatTitle').textContent = cat.category;
+          document.getElementById('detailCatTitle').textContent = currentCatId;
         }
         showScreen(e.state.screen, false);
       } else {
@@ -657,8 +608,20 @@
       history.replaceState({ screen: 'screenOffers' }, "", "");
     }
 
-    // Logo click returns to offers
+    // Logo click returns to offers & acts as secret admin button (5 clicks)
+    let logoClickCount = 0;
+    let logoClickTimer;
     document.getElementById('headerLogo').addEventListener('click', () => {
+      logoClickCount++;
+      clearTimeout(logoClickTimer);
+      if (logoClickCount >= 5) {
+        window.location.href = 'admin.html';
+        return;
+      }
+      logoClickTimer = setTimeout(() => {
+        logoClickCount = 0;
+      }, 1000);
+
       showScreen('screenOffers');
       animateOffers();
     });
@@ -698,25 +661,27 @@
       `;
     }
 
-    document.getElementById('todaysOffersContainer').innerHTML = renderOfferCards(TODAYS_OFFERS);
-    document.getElementById('comboOffersContainer').innerHTML = renderOfferCards(COMBO_OFFERS);
+    window.initializeOffers = function(todays, combos) {
+      document.getElementById('todaysOffersContainer').innerHTML = renderOfferCards(todays);
+      document.getElementById('comboOffersContainer').innerHTML = renderOfferCards(combos);
 
-    document.querySelectorAll('.carousel-track').forEach(track => {
-      let pauseTimeout;
-      const pause = () => {
-        track.classList.add('paused');
-        clearTimeout(pauseTimeout);
-      };
-      const resume = () => {
-        pauseTimeout = setTimeout(() => {
-          track.classList.remove('paused');
-        }, 1500);
-      };
-      track.addEventListener('mouseenter', pause);
-      track.addEventListener('mouseleave', resume);
-      track.addEventListener('touchstart', pause, {passive: true});
-      track.addEventListener('touchend', resume, {passive: true});
-    });
+      document.querySelectorAll('.carousel-track').forEach(track => {
+        let pauseTimeout;
+        const pause = () => {
+          track.classList.add('paused');
+          clearTimeout(pauseTimeout);
+        };
+        const resume = () => {
+          pauseTimeout = setTimeout(() => {
+            track.classList.remove('paused');
+          }, 1500);
+        };
+        track.addEventListener('mouseenter', pause);
+        track.addEventListener('mouseleave', resume);
+        track.addEventListener('touchstart', pause, {passive: true});
+        track.addEventListener('touchend', resume, {passive: true});
+      });
+    };
 
     function animateOffers() {
       const wrappers = document.querySelectorAll('.carousel-wrapper');
@@ -766,24 +731,135 @@
        SCREEN 3: RENDER CATEGORY GRID
     ──────────────────────────────────────── */
     const gridContainer = document.getElementById('categoryGrid');
-    gridContainer.innerHTML = MENU_DATA.map((cat, i) => `
-      <div class="cat-tile" data-cat-id="${cat.id}">
-        <div class="cat-tile-img">
-          <div class="cat-tile-placeholder">
-            ${SVG_ARCH}
-            <span>${cat.category}</span>
-          </div>
-          <img src="${cat.image}" alt="${cat.category}" data-placeholder="true" onerror="handleImgError(this)" loading="lazy">
-          <div class="cat-tile-overlay">
-            <div class="cat-tile-name">${cat.category}</div>
-            <div class="cat-tile-count">${cat.dishes.length} items</div>
+    
+    // Default loading state
+    gridContainer.innerHTML = `
+      <div style="grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 0; gap: 16px;">
+        <div style="width: 48px; height: 48px; opacity: 0.7; animation: pulse 1.5s infinite ease-in-out;">
+          ${SVG_ARCH_ICON}
+        </div>
+        <div style="font-family: var(--font-body); font-size: 12px; color: var(--royal-gold); letter-spacing: 1px; text-transform: uppercase; opacity: 0.8;">Loading Menu...</div>
+      </div>
+      <style>
+        @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.5; } 50% { transform: scale(1.05); opacity: 0.8; } 100% { transform: scale(0.95); opacity: 0.5; } }
+      </style>
+    `;
+
+    window.initializeMenu = function(docs) {
+      allMenuItems = docs;
+      
+      const categoryMap = new Map();
+      allMenuItems.forEach(item => {
+        if (!categoryMap.has(item.category)) categoryMap.set(item.category, 0);
+        if (item.available) categoryMap.set(item.category, categoryMap.get(item.category) + 1);
+      });
+
+      const uniqueCategories = Array.from(categoryMap.keys());
+      
+      uniqueCategories.sort((a, b) => {
+        let indexA = categoryOrder.indexOf(a);
+        let indexB = categoryOrder.indexOf(b);
+        if (indexA === -1) indexA = 999;
+        if (indexB === -1) indexB = 999;
+        return indexA - indexB;
+      });
+
+      gridContainer.innerHTML = uniqueCategories.map((cat, i) => {
+        const count = categoryMap.get(cat);
+        return `
+        <div class="cat-tile" data-cat-id="${cat}">
+          <div class="cat-tile-content">
+            <div class="cat-tile-name">${cat}</div>
+            <div class="cat-tile-count">${count} items</div>
           </div>
         </div>
-      </div>
-    `).join('');
+      `}).join('');
 
-    gridContainer.querySelectorAll('.cat-tile').forEach(tile => {
-      tile.addEventListener('click', () => showCategoryDetail(tile.dataset.catId));
+      gridContainer.querySelectorAll('.cat-tile').forEach((tile, i) => {
+        tile.addEventListener('click', () => showCategoryDetail(tile.dataset.catId));
+        setTimeout(() => tile.classList.add('visible'), i * 80);
+      });
+    };
+
+    window.showMenuError = function(errMessage) {
+      gridContainer.innerHTML = `
+        <div style="grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; text-align: center;">
+          <p style="font-family: var(--font-body); font-size: 14px; color: var(--muted-cream); line-height: 1.5;">Menu is temporarily unavailable, please try again.<br><br><span style="color:red;font-size:12px;">Error: ${errMessage}</span></p>
+        </div>
+      `;
+    };
+
+    /* ────────────────────────────────────────
+       SEARCH LOGIC
+    ──────────────────────────────────────── */
+    const searchInput = document.getElementById('searchInput');
+    const clearSearchBtn = document.getElementById('clearSearchBtn');
+    const searchResultsContainer = document.getElementById('searchResultsContainer');
+    
+    let searchDebounce;
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      clearTimeout(searchDebounce);
+      
+      if (query.length > 0) {
+        clearSearchBtn.classList.add('visible');
+      } else {
+        clearSearchBtn.classList.remove('visible');
+      }
+
+      searchDebounce = setTimeout(() => {
+        if (query === '') {
+          searchResultsContainer.style.display = 'none';
+          gridContainer.style.display = '';
+        } else {
+          gridContainer.style.display = 'none';
+          searchResultsContainer.style.display = 'block';
+          
+          const results = allMenuItems.filter(item => item.available && item.name.toLowerCase().includes(query));
+          
+          if (results.length === 0) {
+            searchResultsContainer.innerHTML = `
+              <div style="padding: 40px 20px; text-align: center;">
+                <p style="font-family: var(--font-body); font-size: 14px; color: var(--muted-cream);">No dishes found for '${e.target.value}'</p>
+              </div>`;
+            return;
+          }
+
+          searchResultsContainer.innerHTML = results.map(dish => {
+            const vegValue = dish.veg ? dish.veg.toLowerCase() : '';
+            let vegClass = '';
+            if (vegValue === 'non-veg' || vegValue === 'egg') vegClass = ' non-veg';
+
+            let badgeHTML = '';
+            if (dish.badge && dish.badge.toLowerCase() === 'bestseller') badgeHTML = `<span class="badge">${SVG_STAR} Bestseller</span>`;
+            if (dish.badge && dish.badge.toLowerCase() === 'chef') badgeHTML = `<span class="badge">${SVG_FLAME} Chef's Special</span>`;
+            
+            return `
+              <div class="dish-card visible" style="margin-bottom: 12px; cursor: pointer;" onclick="showCategoryDetail('${dish.category}')">
+                <div class="dish-thumb">
+                  <div class="dish-thumb-placeholder">${SVG_LEAF}</div>
+                  <img src="${dish.image}" alt="${dish.name}" data-placeholder="true" onerror="handleImgError(this)" loading="lazy">
+                  <span class="veg-indicator${vegClass}"><span class="dot"></span></span>
+                </div>
+                <div class="dish-body">
+                  <div class="dish-top-row">
+                    <div class="dish-info">
+                      <div class="search-result-cat-label">${dish.category}</div>
+                      ${badgeHTML ? `<div class="dish-meta">${badgeHTML}</div>` : ''}
+                      <h3 class="dish-name">${dish.name}</h3>
+                    </div>
+                    <span class="dish-price">₹${dish.price}</span>
+                  </div>
+                </div>
+              </div>`;
+          }).join('');
+        }
+      }, 200);
+    });
+
+    clearSearchBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      searchInput.dispatchEvent(new Event('input'));
     });
 
     /* ────────────────────────────────────────
@@ -794,16 +870,20 @@
 
     function showCategoryDetail(catId) {
       currentCatId = catId;
-
-      const cat = MENU_DATA.find(c => c.id === catId);
+      document.getElementById('detailCatTitle').textContent = catId;
       
-      document.getElementById('detailCatTitle').textContent = cat.category;
+      const dishes = allMenuItems.filter(c => c.category === catId && c.available === true);
+
       // Render Content
-      detailContent.innerHTML = cat.dishes.map(dish => {
-        const vegClass = dish.veg ? '' : ' non-veg';
+      detailContent.innerHTML = dishes.map(dish => {
+        const vegValue = dish.veg ? dish.veg.toLowerCase() : '';
+        let vegClass = '';
+        if (vegValue === 'non-veg') vegClass = ' non-veg';
+        else if (vegValue === 'egg') vegClass = ' non-veg';
+
         let badgeHTML = '';
-        if (dish.badge === 'bestseller') badgeHTML = `<span class="badge">${SVG_STAR} Bestseller</span>`;
-        if (dish.badge === 'chef') badgeHTML = `<span class="badge">${SVG_FLAME} Chef's Special</span>`;
+        if (dish.badge && dish.badge.toLowerCase() === 'bestseller') badgeHTML = `<span class="badge">${SVG_STAR} Bestseller</span>`;
+        if (dish.badge && dish.badge.toLowerCase() === 'chef') badgeHTML = `<span class="badge">${SVG_FLAME} Chef's Special</span>`;
         return `
           <div class="dish-card">
             <div class="dish-thumb">
@@ -816,7 +896,7 @@
                 <div class="dish-info">
                   ${badgeHTML ? `<div class="dish-meta">${badgeHTML}</div>` : ''}
                   <h3 class="dish-name">${dish.name}</h3>
-                  <p class="dish-desc">${dish.desc}</p>
+                  ${dish.desc ? `<p class="dish-desc">${dish.desc}</p>` : ''}
                 </div>
                 <span class="dish-price">₹${dish.price}</span>
               </div>
@@ -861,6 +941,53 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
+  </script>
+
+  <!-- Initialize Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBbcFeFW52gIEnEkDdqsiaBlR6QxxlhNso",
+      authDomain: "the-grand-masala-hut.firebaseapp.com",
+      projectId: "the-grand-masala-hut",
+      storageBucket: "the-grand-masala-hut.firebasestorage.app",
+      messagingSenderId: "149678294402",
+      appId: "1:149678294402:web:7297bdd77d4b8333083b9b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Fetch initial data
+    async function fetchMenu() {
+      try {
+        const snapshot = await getDocs(collection(db, "menuItems"));
+        const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        if (window.initializeMenu) {
+          window.initializeMenu(docs);
+        }
+        
+        // Fetch Offers
+        const todaysSnap = await getDocs(collection(db, "todaysOffers"));
+        const todays = todaysSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+        
+        const combosSnap = await getDocs(collection(db, "comboOffers"));
+        const combos = combosSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+        
+        if (window.initializeOffers) {
+          window.initializeOffers(todays, combos);
+        }
+      } catch (err) {
+        console.error("Failed to fetch menu items from Firestore:", err);
+        if (window.showMenuError) {
+          window.showMenuError(err.message);
+        }
+      }
+    }
+
+    fetchMenu();
   </script>
 </body>
 </html>
