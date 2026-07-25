@@ -1,0 +1,349 @@
+dish_name
+Idly
+Uzhunu Vada
+Masala Dosa
+Dosa
+Appam
+Porotta
+Idiyappam
+Chappathi
+Aripathiri
+Puttu
+Plain Dosa
+Ghee Roast
+Special Kizhi Porotta
+Nool Porotta
+Kothu Porotta Egg
+Kothu Porotta Chicken
+Kothu Porotta Beef
+Kizhi Porotta Chicken
+Kizhi Porotta Beef
+Pazhankanji
+Puttu + Pothu Roast Combo
+Porotta + Poth Variyellu Curry
+Appam + Nadan Kozhi Curry
+Puttu + Mutton + Kattan Combo
+Aripathiri + Duck Roast Combo
+Egg Roast
+Egg Roast (2pcs)
+Veg Kuruma
+Kadala Curry
+Green Peas Curry
+Beef Curry
+Beef Coconut Fry
+Beef Roast
+Beef Chilli
+Beef Chaps
+Chicken Curry (Qtr)
+Chicken Curry (Half)
+Chicken Curry (Full)
+Poth Variyellu Curry
+Fish Curry
+Kakka Roast
+Kakka Fry
+Arabic Salad
+Russian Salad
+Garden Fresh Green Salad
+Paneer Tikka
+Paneer 65
+Chilly Paneer Dry
+Baby Corn Schezwan Dry
+Chicken Manchurian Qtr
+Chicken Manchurian Half
+Chicken Manchurian Full
+Chicken 65 Boneless
+Chicken 65 Bone
+Chicken Tikka
+Chicken Malai Tikka
+Chicken Salt & Pepper Bl
+Hariyali Chicken Kabab
+Sheek Kabab
+Thandoori Chicken Qtr
+Thandoori Chicken Half
+Thandoori Chicken Full
+Dragon Chicken
+Chilli Chicken
+Chicken Kondattam
+Chicken Loli Pop
+Beef Dry Fry
+Beef Chilli
+Beef Kondattom
+Kada Fry
+Mutton Fry
+Mutton Liver Fry
+Prawns Dry Fry
+Prawns Tawa Fry
+Fish Deep Fry
+Fish Pollichathu
+Fish Tawa Fry
+Fried Chicken Full
+Fried Chicken Half
+Fried Chicken Qtr
+Cashew Nut With Dragon Paneer
+Shawai Full
+Shawai Half
+Shawai Qtr
+Masala Shawai Full
+Masala Shawai Half
+Masala Shawai Qtr
+Rumali Rotti
+Butter Rumali
+Thandoori Rotti
+Butter Rotti
+Butter Naan
+Garlic Naan
+Lechha Porotta
+Wheet Porotta
+Thandoori Kulcha
+Paneer Kulcha
+Rumali Shawarma
+Mexican Spicy
+Shawarma Cheese Roll
+Full Meat Chicken Shawarma
+Shawarma Plate Normal
+Full Plate Spicy Meat
+Meals Veg
+Meals With Fish Curry
+Chatti Choru
+Veg Biriyani
+Egg Biriyani
+Chicken Dum Biriyani
+Beef Dum Biriyani
+Hydarabadi Chicken Dum Biriyani
+Ghee Rice
+Biriyani Rice
+White Rice
+Boiled Basumathi Rice
+Veg Pulavu
+Dal Curry
+Gobi Masala
+Gobi Manchurian
+Chilli Gobi
+Bhindi Fry
+Veg Makhani
+Mixed Veg Masala
+Baby Corn Mushroom
+Paneer Butter Masala
+Mushroom Masala
+Mushroom Kadai
+Aloo Gobi
+Fish Coconut Curry
+Fish Chilli
+Fish Varutharachathu
+Fish Mulakilittathu
+Prawns Masala
+Prawns Roast
+Chilli Prawns
+Prawn Fry
+Kanava Masala
+Kanava Roast
+Kanava Fry
+Tea
+Coffee
+Lime Tea
+Ginger Tea
+Mint Tea
+Cardamom Tea
+Boost
+Horlicks
+Virgin Mojito
+Blue Ocean
+Water Melon Mojito
+Passion Fruit Mojito
+Green Apple Mojito
+Spicy Orange Mojito
+Strawberry Mojito
+Njaval Pazham Mojito
+Mixed Mojito
+Cold Coffee Normal
+Cold Coffee With Ice Cream
+Ice Tea
+Ice Coffee
+Badam Milk
+Rose Milk
+Grand Special Falooda
+Royal Falooda
+Dry Fruits Falooda
+Fruits Salad With Ice Cream
+Sharjah Shake
+Mango Shake
+Apple Shake
+Chikku Shake
+Anar Shake
+Tender Coconut Shake
+Pappaya Shake
+Avacado Shake
+Snickers Shake
+Kit Kat Shake
+Oreo Shake
+Dairy Milk Shake
+Galaxy Shake
+Dates Shake
+Mixed Dry Fruits Shake
+Shamam Shake
+Aval Milk Shake
+Orange Juice
+Grape Juice
+Water Melon Juice
+Apple Juice
+Pineapple Juice
+Citrus Juice
+Cucumber Juice
+Beetroot Juice
+Carrot Juice
+Mango Juice
+Mixed Fruit Juice
+Cucumber Kanthari Juice
+Fresh Lime
+Lemon Soda
+Mint Lime
+Paal Munthiri
+Veg Fried Rice
+Chicken Fried Rice
+Egg Fried Rice
+Schezwan Veg Fried Rice
+Schezwan Chicken Fried Rice
+Schezwan Egg Fried Rice
+Manchurian Chicken Fried Rice
+Beef Fried Rice
+Mixed Fried Rice
+Prawns Fried Rice
+Kanava Fried Rice
+Ginger Chicken
+Butter Chicken
+Garlic Chicken
+Chilli Chicken Full
+Chilli Chicken Half
+Pepper Chicken
+Kadai Chicken
+Chicken Kuruma
+Varuththaracha Chicken Curry
+Chicken Coconut Milk Curry
+Hyderabadi Chicken
+Chicken Chettinadu
+Chicken Tikka Masala
+Chicken Salami
+Chicken Mughlai
+Chicken Kanthari
+Chicken Manchurian
+Chicken Schezwan
+Chicken Peshawari (Full)
+Veg Noodles
+Chicken Noodles
+Schezwan Noodles
+Mixed Noodles
+Egg Noodles
+American Chopsuey Noodles
+Chinese Chopsuey Noodles
+Hot & Sour Veg Soup
+Sweet Corn Soup
+Cream Of Mushroom Soup
+Cream Of Tomato Soup
+Veg Manchow Soup
+Tom Yum Soup
+Rumali (Non-Veg Soup)
+Mexican Spicy (Non-Veg Soup)
+Shawarma Cheese Roll (Non-Veg Soup)
+Full Meat Chicken Shawarma (Non-Veg Soup)
+Shawarma Plate Normal (Non-Veg Soup)
+Full Plate Spicy Meat (Non-Veg Soup)
+Honey Pops
+Cheese Pops
+Dynamic Pops
+Lemon Pops
+Chicken Strips
+Lemon Pepper Strips
+Korian Strips
+Thai Strips
+Veg Sandwich
+Egg Mayo Sandwich
+Egg Chilli Sandwich
+Club Chicken Sandwich
+Egg Chilli Cheese Sandwich
+Cheese Veg Sandwich
+Veg Club Sandwich
+Club Mixed Sandwich
+Chicken Hawaiian Sandwich
+Veg Roll
+Arabic Roll
+Panjabi Roll
+Mexican Roll
+Italian Spicy Roll
+Alfaham Full
+Alfaham Half
+Alfaham Qtr
+Peri Peri Full
+Peri Peri Half
+Peri Peri Qtr
+Honey Chilli Full
+Honey Chilli Half
+Honey Chilli Qtr
+Kanthari Alfaham Full
+Kanthari Alfaham Half
+Kanthari Alfaham Qtr
+Pepper Alfaham Full
+Pepper Alfaham Half
+Pepper Alfaham Qtr
+Red Chilli Alfaham Full
+Red Chilli Alfaham Half
+Red Chilli Alfaham Qtr
+Burnt Chicken Fried Rice
+Chicken Triple Fusion
+Singapore Rice Skewer
+Dragon Chicken With Hakka Rice
+Dragon Beef With Hakka Rice
+Chilli Chicken With Capsicum Rice
+Mexican Beef With Shimla Rice
+Paneer Burnt Fried Rice
+Shanghai Beef With Garlic Rice
+Afgani Chicken With Garlic Rice
+Afgani Beef With Garlic Rice
+Spicy Chicken With Jeera Rice
+Grand Special Platter
+Normal Fries
+Kur Kure Fries
+Spicy Lemon Fries
+Peri Peri Fries
+Loaded Fries
+Egg Burger
+Double Cheese Burger
+Chicken Burger
+Veg Jumbo Xx
+Double Cheese Chicken Burger
+Chicken Jumbo Xx
+Zinger Burger
+Chicken Kuzhimandi Full
+Chicken Kuzhimandi Half
+Chicken Kuzhimandi Qtr
+Alfaham Mandi Full
+Alfaham Mandi Half
+Alfaham Mandi Qtr
+Peri Peri Alfaham Mandi Full
+Peri Peri Alfaham Mandi Half
+Peri Peri Alfaham Mandi Qtr
+Honey Chilli Alfaham Mandi Full
+Honey Chilli Alfaham Mandi Half
+Honey Chilli Alfaham Mandi Qtr
+Pepper Alfaham Mandi Full
+Pepper Alfaham Mandi Half
+Pepper Alfaham Mandi Qtr
+Kanthari Alfaham Mandi Full
+Kanthari Alfaham Mandi Half
+Kanthari Alfaham Mandi Qtr
+Red Chilli Alfaham Mandi Full
+Red Chilli Alfaham Mandi Half
+Red Chilli Alfaham Mandi Qtr
+Shawai Mandi Full
+Shawai Mandi Half
+Shawai Mandi Qtr
+Masala Shawai Mandi Full
+Masala Shawai Mandi Half
+Masala Shawai Mandi Qtr
+Beef Rib Mandi Qtr
+Beef Steak Mandi
+Mutton Mandi Half
+Mutton Mandi Full
+Fish Mandi
+Mandi Rice Qtr
+Mandi Rice Half
+Mandi Rice Full
