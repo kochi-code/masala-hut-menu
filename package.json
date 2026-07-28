@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/kochi-code/masala-hut-menu#readme",
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "csv-parse": "^7.0.1",
     "firebase-admin": "^14.2.0"
   }
