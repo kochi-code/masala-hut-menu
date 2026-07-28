@@ -204,61 +204,40 @@
       width: 100vw;
       margin-left: calc(-50vw + 50%);
       margin-bottom: 24px;
-      overflow: hidden;
-      position: relative;
-      mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-      -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-      padding: 10px 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      padding: 10px 0 20px 0;
       opacity: 0; transform: translateY(28px);
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(212,175,55,0.4) transparent;
     }
     .carousel-wrapper.visible {
       opacity: 1; transform: translateY(0);
       transition: opacity .6s ease, transform .6s ease;
     }
+    .carousel-wrapper::-webkit-scrollbar { height: 4px; }
+    .carousel-wrapper::-webkit-scrollbar-track { background: transparent; }
+    .carousel-wrapper::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.4); border-radius: 4px; }
+    
     @media (min-width: 600px) {
       .carousel-wrapper {
          width: 100%;
          margin-left: 0;
-         mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-         -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
       }
     }
     .carousel-track {
       display: flex;
       gap: 16px;
       width: max-content;
-      animation: scrollLeft 25s linear infinite;
-      will-change: transform;
-      padding: 0 8px; /* half gap padding */
+      padding: 0 16px;
     }
     .carousel-set {
       display: flex;
       gap: 16px;
     }
-    @keyframes scrollLeft {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(calc(-50% - 8px)); }
-    }
-    .carousel-track.paused {
-      animation-play-state: paused;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .carousel-wrapper {
-        overflow-x: auto;
-        mask-image: none;
-        -webkit-mask-image: none;
-        scroll-snap-type: x mandatory;
-        padding-bottom: 20px;
-      }
-      .carousel-track {
-        animation: none;
-        width: auto;
-      }
-      .carousel-wrapper::-webkit-scrollbar { height: 4px; }
-      .carousel-wrapper::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.4); border-radius: 4px; }
-      .offer-card { scroll-snap-align: start; }
-      .carousel-set:nth-child(2) { display: none; }
-    }
+    .offer-card { scroll-snap-align: center; }
 
     /* View Full Menu CTA */
     .view-menu-cta {
@@ -661,7 +640,6 @@
       return `
         <div class="carousel-track">
           <div class="carousel-set">${cardsHTML}</div>
-          <div class="carousel-set" aria-hidden="true">${cardsHTML}</div>
         </div>
       `;
     }
@@ -669,23 +647,6 @@
     window.initializeOffers = function(todays, combos) {
       document.getElementById('todaysOffersContainer').innerHTML = renderOfferCards(todays);
       document.getElementById('comboOffersContainer').innerHTML = renderOfferCards(combos);
-
-      document.querySelectorAll('.carousel-track').forEach(track => {
-        let pauseTimeout;
-        const pause = () => {
-          track.classList.add('paused');
-          clearTimeout(pauseTimeout);
-        };
-        const resume = () => {
-          pauseTimeout = setTimeout(() => {
-            track.classList.remove('paused');
-          }, 1500);
-        };
-        track.addEventListener('mouseenter', pause);
-        track.addEventListener('mouseleave', resume);
-        track.addEventListener('touchstart', pause, {passive: true});
-        track.addEventListener('touchend', resume, {passive: true});
-      });
     };
 
     function animateOffers() {
